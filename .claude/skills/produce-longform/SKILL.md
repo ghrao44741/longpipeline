@@ -1,0 +1,247 @@
+---
+name: produce-longform
+description: Produces a complete Aeonium Glow long-form (16:9) YouTube video end-to-end, in either of two formats -- narrative (a flowing hook/sections/close video, the default) or listicle (a ranked countdown). Covers topic and source-doc selection, script approval, voiceover, scene splitting, brand-validated 16:9 image prompts, image generation, stitching with watermark and optional numbered overlays, and an optional YouTube upload. Use this whenever the user asks for a long-form or full-length video for @aeoniumglow -- phrases like "make the long-form video about root rot", "15 succulents that rot fast in regular soil", "do the etiolation countdown", "build the long video from the misting doc", or "produce the next long-form from that source doc" should all trigger it, even if they don't name it directly. Do NOT use this for Shorts; use produce-short instead. Do NOT use it for a one-off re-stitch, a single bad image, or a script tweak.
+---
+
+# Produce an Aeonium Glow long-form video
+
+Two formats share one pipeline. **`narrative` is the default** — a flowing hook → sections →
+close video, the shape of *Stop Succulent Rotting Fast: The First 5 Minutes Matter*.
+**`listicle`** is a ranked countdown. Many videos have no list at all; do not assume one.
+
+Read `longform_pipeline/BUILD_BRIEF.md` first if the pipeline has not been built yet. This
+skill assumes it exists and works.
+
+**Three hard stops**, mirroring `produce-short`: the structure, the script, and the generated
+prompts. At each one, show the user the **actual content**, not a summary, and wait. Both of
+the most expensive mistakes in this project's history — a silently swapped species name and a
+stray caption burned into a finished video — happened on runs that looked completely clean
+right up until they didn't.
+
+Never call `upload_youtube.py` unless the user explicitly asked for an upload, or you ask at
+the end and get an explicit yes.
+
+---
+
+## Step 0 — Inputs and format
+
+**Scope: succulents only.** No general houseplants, tropicals, or foliage plants. Snake Plant
+and cacti are botanically defensible and deliberately out of scope — an LLM filling out a list
+or picking an example will reach for them, so check. Expanding scope is a channel-strategy
+decision the user makes on purpose, never something a script introduces quietly.
+
+You need a project name (no spaces), a topic, and a **domain source document**.
+
+**Pick the format from the topic, and say which you picked.** If the user's topic contains a
+count ("15 succulents that…", "the 7 signs of…") it is a listicle. If it is a process, a
+diagnosis, a rescue, or an explanation, it is narrative. If genuinely ambiguous, ask — the two
+produce very different videos and the choice is not reversible after scripting.
+
+Everything from voiceover onward is identical between the formats. Only the script stage,
+manifest stamping, and one optional overlay differ.
+
+---
+
+## Step 1 — Source doc, and the differentiation check
+
+**Applies to both formats.**
+
+`generate_script.py` is explicitly instructed not to state facts its source does not support —
+that instruction was added after it invented an unsupported fix on its own.
+
+1. **A domain source doc must exist before scripting.** Domain docs are per *axis*, not per
+   video — one soil/drainage doc backs several soil videos. Check
+   `...\Aeonium Glow\Long Videos\Source Docs\` first; you will often find the axis is already
+   covered.
+2. For a **listicle**, the doc must additionally **justify each rank in one line.** A ranked
+   list is a series of factual claims plus an ordering claim; the justification is what makes
+   the order defensible rather than vibes, and it stops the generator improvising a reason an
+   item sits at #4.
+3. Point `{Project}\source_doc.path` at it, in the **base** folder, per the usual convention.
+
+**Differentiation check — do this every time, both formats.** Before writing anything, check
+`shorts_session.md` Project Provenance, the `Aeonium_Glow/` package folders, and the vault
+Source Docs list for content on the same axis. This project has shipped near-duplicate content
+by accident before (`Propagation_S2` vs `short-04`).
+
+A prevention/selection video and a rescue/diagnostic video on the same topic are **different
+products and should cross-promote** — but only if the source doc states that scope boundary
+explicitly and the new script doesn't rebuild the other video's biology section. Two or three
+sentences of mechanism, then a pointer. Not a re-derivation.
+
+---
+
+## Step 2 — HARD STOP 1: the structure
+
+**Narrative:** show the user the **section outline** — every section heading, in order, with a
+one-line summary of what each covers. Ask whether the arc is right and whether anything is
+missing or redundant against existing videos.
+
+**Listicle:** show the user the **full ranked list, in countdown order, with the one-line
+justification for each rank.** Not a count, not a summary — the actual list. Ask:
+- Is anything ranked wrong?
+- Is anything missing that a viewer would expect to own?
+- Is #1 the right #1? It should be the highest risk × ownership, not the most dramatic
+  outlier. The dramatic outlier usually belongs at #2, where it makes #1 land harder.
+
+Everything downstream depends on this and nothing downstream can fix it.
+
+---
+
+## Step 3 — Species validation (BLOCKING for listicles)
+
+`pipeline_config.json` → `approved_species` carries a small curated set.
+`generate_images.py` flags any plant-mentioning prompt that does not name a species from it,
+and the retry pass **rewrites the prompt to an approved species.**
+
+**Narrative:** this is the guardrail working as designed. Leave it alone.
+
+**Listicle:** this is a live hazard. On a 15-species list it silently swaps the plant in the
+image away from the plant in the narration, once per item, and reports success. Before any
+image generation:
+- Every species in the item list must be in `approved_species` with a `visual` description, OR
+- the run must be in listicle mode, where the item list is authoritative for `names_species()`
+
+**Verify this actually holds** — do not assume. Generate prompts with `--dry-run-prompts` and
+read them. If an item's prompt names a different plant than the item does, stop.
+
+Taxonomy note, both formats: several common succulents are still sold under superseded names
+(*Curio rowleyanus* / *Senecio rowleyanus*, *Haworthiopsis fasciata* / *Haworthia fasciata*).
+Use the current name in narration, mention the trade name once so viewers recognise their own
+plant, and make sure **both** forms satisfy the validator.
+
+---
+
+## Step 4 — Script, then HARD STOP 2
+
+**Listicle only — `items.json` is generated from the source doc's ranked list.** One source of
+truth; do not maintain a second copy. This project has been bitten repeatedly by duplicated
+state. Constraint the generator must satisfy: **each item begins a new sentence**, so item
+boundaries land on scene boundaries and the numbered overlay maps without fuzzy matching.
+
+Show the user the **full script text** at the approval gate. Check yourself first.
+
+**Both formats:**
+- Does any claim exceed what the source doc's confidence markers allow?
+- Does it re-derive a companion video's material instead of pointing at it?
+- Does it end on a concrete next action, per the channel's standing rule?
+
+**Listicle only:**
+- Is the shared fix stated once near the top as an open loop, with the full version promised at #1?
+- Does each item have exactly one twist clause, not a full fix?
+- Do the teases use **different words** at each insertion point?
+
+---
+
+## The listicle format, in one page
+
+Skip this section entirely for narrative videos.
+
+**Ranking rule — generalises to every listicle on this channel:**
+
+> Rank by **severity on the video's problem axis × how many people own the plant.**
+
+Not raw severity. A plant that fails instantly but that almost nobody owns ranks *below* a
+plant that fails slowly in ten thousand homes. The payoff only lands if the viewer owns it.
+
+| Video | Problem axis | Ranks by |
+|---|---|---|
+| Rot in regular soil | rot speed in peat-based mix | rot risk × ownership |
+| Survive beginner mistakes | forgiveness | forgiveness × ownership |
+| Stretch without light | etiolation speed | etiolation × ownership |
+
+**Order:** always a countdown, #N → #1.
+
+**Tiers** (scale proportionally for other list lengths): top third — still at risk but more
+forgiving; middle third — common beginner kills; #5–#2 — high risk, very common; #1 — highest
+combined risk and ownership.
+
+**Payoff structure:**
+1. Shared fix stated **once, near the top, as an open loop** — "the fix is nearly the same for
+   all of them; I'll give you the exact version at number one"
+2. Each item gets only its **specific twist**, one clause
+3. The **full fix lands at #1**, before the CTA
+
+Do not generate a separate full fix per item (kills pace). Do not withhold every fix until the
+end (that is the catalog-channel pattern this channel exists to be better than).
+
+**Retention glue:** teases after roughly each quarter, plus one immediately before #3. For 15
+items: after #12, after #9, after #6, before #3.
+
+> **Every tease must use different words and add new information.** Repeated identical phrasing
+> on TTS narration is the clearest audible tell of synthetic voiceover — confirmed directly by
+> analysing a comparable channel, where flat repetitive cadence across items was the giveaway.
+> A viewer who has heard the same line three times stops hearing it the fourth.
+
+Approved pattern (adapt specifics per video, keep the escalation):
+- after #12 — "Three down. None of these are the one that's probably on your windowsill right now."
+- after #9 — "Halfway. Everything left is something you've seen at a garden centre."
+- after #6 — "From here it's the ones I get the most comments about."
+- before #3 — "Top three. These are the ones beginners lose most." ← keep this one verbatim
+
+**Per-video input**, which is all the authoring a listicle actually needs:
+
+```
+topic: Succulents that rot fast in regular soil
+problem_axis: rot speed in peat-based potting mix
+shared_fix: gritty mineral mix, full dry-down, real drainage
+source_doc: <vault path>
+items (15 → 1):
+  15. Sempervivum tectorum | Hens and Chicks | handles damp better than most, still not safe
+  ...
+   1. Curio rowleyanus | String of Pearls | sold in peat everywhere, rots strand by strand
+```
+
+---
+
+## Step 5 — Prompts, then HARD STOP 3
+
+**Narrative:** `--dry-run-prompts` strongly recommended.
+**Listicle:** `--dry-run-prompts` is **mandatory.** 15 items × 2–3 scenes is 30–45 images,
+roughly 4× a Short, and the validator's retry loop multiplies the GPT-4o calls on top.
+
+Tell the user the expected spend before generating.
+
+Show them `prompts_review.json`. Check that every prompt:
+- names the species that scene is actually about
+- shows the **state the narration describes** — never the fix, never the outcome. A scene about
+  a plant rotting at the base shows that plant in wet dense soil, or early basal softening. Not
+  a hand repotting it into gritty mix. In a listicle, the fix appears once, at #1.
+- is 16:9, not 9:16
+
+**Quote the paths.** A `--prompts-file` path with unquoted Windows backslashes has silently
+mangled itself in this project before. It now hard-fails rather than substituting fresh
+prompts, but quote them anyway.
+
+---
+
+## Step 6 — Images, stitch, verify
+
+After generation, **assert every PNG in `images/` is landscape** before stitching. One line,
+and it immediately catches the case where the image provider fell back to a square-cropping
+path.
+
+After stitching, verify on an **extracted frame, never the SRT**:
+
+```powershell
+ffmpeg -y -ss 120 -i <Project>/output/<Project>_captioned.mp4 -frames:v 1 check.png
+```
+
+Confirm: 1920×1080, captions readable in the bottom third, watermark present, BGM audible and
+under the voice.
+
+**Listicle only:** also confirm the numbered item overlay shows the correct number at that
+timestamp, and check a frame from **inside an item**, not a transition. The overlay is the
+thing most likely to be off by one, and it is invisible in every other check.
+
+---
+
+## Step 7 — Upload
+
+Only if explicitly asked. Confirm before running:
+- `youtube_tags` does not contain `shorts`
+- the description references the companion video where one exists
+- chapters came from section headings (narrative) or `items.json` (listicle), not hand-authored
+
+Uploads land as private drafts. YouTube's API rejects comments on private videos — publish or
+set unlisted first, or use `post_update.py`, which checks privacy before attempting.

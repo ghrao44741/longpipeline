@@ -1,0 +1,52 @@
+# Generated media, across every project subfolder — large, binary, fully regenerable
+# from each project's manifest.json + source_audio + these scripts. Not worth tracking.
+*/audio/*
+!*/audio/.gitkeep
+
+*/source_audio/*
+!*/source_audio/.gitkeep
+
+*/images/*
+!*/images/.gitkeep
+
+*/videos/*
+!*/videos/.gitkeep
+
+*/output/*
+!*/output/.gitkeep
+
+# Manifest backups — rewritten on every stitch, fully regenerable, pure churn.
+*/manifest_backup_*.json
+*/manifest_backup_prefix_*.json
+
+# Local scratch/backup files taken before a large edit
+*.pre_reorg_backup
+*.bak
+*.bak_*
+
+# One-off manual verification frame extractions from debugging sessions (ffmpeg -frames:v 1
+# checks), left at repo root — not source, not a tracked asset, purely transient.
+_check_frame*.png
+_probe_raw*.png
+
+# Secrets / credentials — never commit these.
+# client_secrets.json / youtube_token.pickle normally live here too, but this pipeline
+# reads them from shorts_pipeline2 via credentials_dir in pipeline_config.json instead —
+# kept in this list anyway as a guard in case that ever changes.
+.env
+client_secrets.json
+youtube_token.pickle
+*_Upload.json
+google_credentials*.json
+token.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/

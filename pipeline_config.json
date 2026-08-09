@@ -1,0 +1,26 @@
+{
+  "_comment": "pipeline_config.json: HOW THE MACHINE RUNS (subject-agnostic). channel_dna (WHAT THE CHANNEL IS, brand/subject-specific) is shallow-merged over this by config_loader.py -- see channel_dna_file below.",
+
+  "channel_dna_file": "channel_dna/aeonium_glow.json",
+
+  "image_aspect_ratio": "16:9",
+  "image_provider_order": ["xai", "replicate", "gemini"],
+  "_note_image_provider_order": "xAI/Grok set primary, 2026-08-05. CORRECTED same-day: xAI is not locked to a 1024x1024 square -- generate_with_xai() requests native aspect_ratio at 'resolution: 2k' via extra_body, which returns ~2048x1152 at 16:9 (true landscape). That's actually higher native resolution than Replicate Flux's 16:9 output (~1344x768), so xAI-first is a genuine quality win here, not just a preference call. normalize_image() still crops/resizes every provider's output unconditionally either way, so correctness never depended on provider choice -- see save_image()/BUILD_BRIEF.md §3c2.",
+  "image_target_resolution": "1920x1080",
+
+  "max_scene_seconds": 18,
+  "whisper_device": "cuda",
+  "whisper_compute_type": "float16",
+  "whisper_batch_size": 4,
+  "_note_whisper_batch_size": "4 is proven ONLY at 5.7 minutes of real narration (Phase 1's WhisperX-at-scale test, PHASE_1_REPORT.md \u00a75) -- the OOM it fixed happened during transcription (whisperx/asr.py's generate_segment_batched->encode), not forced alignment; alignment ran clean afterward but wasn't independently stress-tested at greater length. Real listicles run 10-15 minutes, 2-3x that. If a real production run OOMs again, lowering this further is the expected next step, not a new bug.",
+  "transcription_venv_python": "C:\\Bakcup_Asus\\shared-tools\\transcription-tools\\.venv\\Scripts\\python.exe",
+
+  "item_overlay_enabled": false,
+  "_note_item_overlay_enabled": "Off by default -- narrative format has no items.json/item_number and add_item_number_overlay() no-ops harmlessly either way, but keeping this false is the explicit switch listicle projects flip on (in the project's own config or channel_dna, not here) per BUILD_BRIEF.md \u00a78b. See stitch_video_longform.py's build_item_overlay_windows()/add_item_number_overlay().",
+  "item_overlay_text": "#{n}  {name}",
+  "item_overlay_color": "#F5EFE0",
+  "item_overlay_fontsize": 54,
+  "item_overlay_position": "top-left",
+
+  "credentials_dir": "..\\shorts_pipeline2"
+}

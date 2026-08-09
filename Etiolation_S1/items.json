@@ -1,0 +1,99 @@
+{
+  "_comment": "Transcribed from light-and-etiolation-source-doc.md §G (the ranked list is the single source of truth -- this file derives from it, per BUILD_BRIEF.md §8b, not maintained independently). Items are in NARRATION order (countdown #10 -> #1), matching the order they'll be spoken in script.txt. 'opening_line' values are the ACTUAL WhisperX transcription of manifest.json's scene text, not script.txt's prose spelling -- WhisperX transcribed digits ('Number 10') rather than spelled-out numbers for every item except #3 ('Number three'), confirmed against the real Etiolation_S1 manifest 2026-08-06. 'species' matches the canonical channel_dna/aeonium_glow.json subjects key exactly, for future listicle-mode species-validation authority (BUILD_BRIEF.md §8a.2, not yet wired into the validator).",
+
+  "outro_opening_line": "So here is the fix I promised, and here is the part that matters most.",
+  "_comment_outro": "Marks where the general 'here's the fix' section starts, AFTER item #1 (Echeveria elegans) -- without this, stamp_items.py's last-item span would run to end-of-manifest and silently sweep the whole 18-scene outro into item-01's group, mislabeling generic light-acclimation advice as being about Echeveria specifically. See stamp_items.py's module docstring.",
+
+  "items": [
+    {
+      "rank": 10,
+      "species": "Gasteria",
+      "trade_name": null,
+      "common": "Ox Tongue",
+      "twist": "Handles low light better than anything else here. That is not the same as liking it.",
+      "source_ref": "§G #10",
+      "opening_line": "Number 10 is Gasteria, sometimes sold as Ox Tongue."
+    },
+    {
+      "rank": 9,
+      "species": "Aeonium arboreum",
+      "trade_name": null,
+      "common": "Green Aeonium",
+      "twist": "It is meant to be tall. That is what lets it get away with it.",
+      "source_ref": "§G #9",
+      "opening_line": "Number 9 is Aeonium arboreum."
+    },
+    {
+      "rank": 8,
+      "species": "Haworthiopsis fasciata",
+      "trade_name": "Haworthia fasciata",
+      "common": "Zebra Plant",
+      "twist": "It does not fall apart. It grows a neck.",
+      "source_ref": "§G #8",
+      "opening_line": "Number 8 is Haworthiopsis fasciata, the zebra plant, still widely sold as Haworthia fasciata."
+    },
+    {
+      "rank": 7,
+      "species": "Kalanchoe tomentosa",
+      "trade_name": null,
+      "common": "Panda Plant",
+      "twist": "The fuzz hides the gaps until the gaps are the point.",
+      "source_ref": "§G #7",
+      "opening_line": "Number 7 is Kalanchoe tomentosa, the panda plant."
+    },
+    {
+      "rank": 6,
+      "species": "Portulacaria afra",
+      "trade_name": null,
+      "common": "Elephant Bush",
+      "twist": "It grows fast either way. Only one of those is growth you want.",
+      "source_ref": "§G #6",
+      "opening_line": "Number 6 is Portulacaria afra, the elephant bush."
+    },
+    {
+      "rank": 5,
+      "species": "Crassula ovata",
+      "trade_name": null,
+      "common": "Jade Plant",
+      "twist": "People think it is finally becoming a tree. It is just reaching.",
+      "source_ref": "§G #5",
+      "opening_line": "Number 5 is Crassula ovata, the jade plant."
+    },
+    {
+      "rank": 4,
+      "species": "Curio rowleyanus",
+      "trade_name": "Senecio rowleyanus",
+      "common": "String of Pearls",
+      "twist": "Gappy pearls look thirsty. They are just dark.",
+      "source_ref": "§G #4",
+      "opening_line": "Number 4 is Curio rowleyanus, String of Pearls, still sold as Senecio rowleyanus."
+    },
+    {
+      "rank": 3,
+      "species": "Sempervivum tectorum",
+      "trade_name": null,
+      "common": "Hens and Chicks",
+      "twist": "It evolved on a mountainside. You put it on a bookshelf.",
+      "source_ref": "§G #3",
+      "opening_line": "Number three is Sempervivum tectorum, hens and chicks."
+    },
+    {
+      "rank": 2,
+      "species": "Lithops",
+      "trade_name": null,
+      "common": "Living Stones",
+      "twist": "It does not stretch. It grows a stalk and falls over.",
+      "source_ref": "§G #2",
+      "opening_line": "Number 2 is Lithops, the Living Stones."
+    },
+    {
+      "rank": 1,
+      "species": "Echeveria elegans",
+      "trade_name": null,
+      "common": "Mexican Snowball",
+      "twist": "The shape you bought it for is the first thing it loses.",
+      "source_ref": "§G #1",
+      "opening_line": "Number 1 is Echeveria elegans, the Mexican snowball."
+    }
+  ]
+}

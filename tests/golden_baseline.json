@@ -1,0 +1,14 @@
+{
+  "Misting_S1_yt": "   🔎 Validation pass 1: 2 shot(s) need fixing — semantic reversal — prompt shows opposite/solution of what narration describes (SCENE-002: prompt invents watering/drainage action not mentioned in narration; SCENE-008: prompt invents watering/drainage action not mentioned in narration)\n",
+  "Misting_S2_yt": "   🔎 Validation pass 1: 3 shot(s) need fixing — semantic reversal — prompt shows opposite/solution of what narration describes (SCENE-001: narration describes pests/disease but prompt shows no visible damage or infestation; SCENE-003: narration describes pests/disease but prompt shows no visible damage or infestation; SCENE-005: narration describes pests/disease but prompt shows no visible damage or infestation)\n",
+  "Misting_S3_yt": "   ✅ Validation pass 1: no variety-rule violations found.\n",
+  "Myths_S1_yt": "   ✅ Validation pass 1: no variety-rule violations found.\n",
+  "Myths_S2_yt": "   🔎 Validation pass 1: 3 shot(s) need fixing — mentions plant material with no real species named (SCENE-001); semantic reversal — prompt shows opposite/solution of what narration describes (SCENE-007: prompt invents watering/drainage action not mentioned in narration; SCENE-009: prompt invents watering/drainage action not mentioned in narration)\n",
+  "Myths_S3_yt": "   🔎 Validation pass 1: 1 shot(s) need fixing — semantic reversal — prompt shows opposite/solution of what narration describes (SCENE-003: prompt invents pest/disease content not mentioned in narration)\n",
+  "Propagation_S1_yt": "   ✅ Validation pass 1: no variety-rule violations found.\n",
+  "Propagation_S2_ig": "   ✅ Validation pass 1: no variety-rule violations found.\n",
+  "Propagation_S3_yt": "   ✅ Validation pass 1: no variety-rule violations found.\n",
+  "Wrinkled_Leaves_S1_yt": "   🔎 Validation pass 1: 2 shot(s) need fixing — semantic reversal — prompt shows opposite/solution of what narration describes (SCENE-009: prompt invents watering/drainage action not mentioned in narration; SCENE-012: prompt invents watering/drainage action not mentioned in narration)\n",
+  "Wrinkled_Leaves_S2_yt": "   🔎 Validation pass 1: 3 shot(s) need fixing — semantic reversal — prompt shows opposite/solution of what narration describes (SCENE-001: prompt invents watering/drainage action not mentioned in narration; group-04: narration describes pests/disease but prompt shows no visible damage or infestation; group-05: prompt invents watering/drainage action not mentioned in narration)\n",
+  "Wrinkled_Leaves_S3_yt": "   🔎 Validation pass 1: 2 shot(s) need fixing — semantic reversal — prompt shows opposite/solution of what narration describes (SCENE-011: prompt invents watering/drainage action not mentioned in narration; group-01: prompt invents watering/drainage action not mentioned in narration)\n"
+}

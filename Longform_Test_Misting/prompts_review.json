@@ -1,0 +1,112 @@
+{
+  "image_prompts": [
+    {
+      "scene_id": "SCENE-001",
+      "script": "Succulents are vascular plants, which means they have an internal water transport system, the xylem, that works a bit like a series of drinking straws running from the roots to the tips of the leaves.",
+      "auto_prompt": "A cut stem of Echeveria elegans (Mexican Snowball) — dense, uniform, pale green fleshy interior tissue, no segments, no seeds, thick waxy outer skin, freshly sliced with a single water droplet catching the light on the moist cut surface. A 16:9 widescreen extreme close-up shot. Setting: a linen surface with soft natural window light. Shallow depth of field. Rich earthy tones — terracotta, sage green, deep charcoal. Botanical and editorial feel. No text, no logos, no diagrams or illustrated overlays, no fruit, no seeds, no radial segmented pattern. Botanically accurate, photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-002",
+      "script": "Water enters through root hairs, tiny, thread-like structures at the very tips of the roots.",
+      "auto_prompt": "A 16:9 widescreen close-up of Graptopetalum paraguayense (Ghost Plant) showing the tips of the roots in a terracotta pot, with the delicate root hairs emerging from the soil. Warm, soft light enhances the earthy tones of the pot and soil, creating an inviting atmosphere. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-003",
+      "script": "Those root hairs are deep in the soil, pressed against moist particles, pulling water in through osmosis, the same principle as a teabag drawing liquid in when it's submerged.",
+      "auto_prompt": "A 16:9 widescreen cinematic shot of Crassula ovata (Jade Plant) being gently lifted from a terracotta pot, revealing a cross-section of the soil with visible root hairs pressing against moist soil particles. The lighting is warm and inviting, showcasing the earthy tones of the soil and the vibrant green of the plant. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-004",
+      "script": "Leaves can absorb small amounts of moisture through their outer waxy coating, called the cuticle, but it's minimal.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria 'Perle von Nürnberg' in a terracotta pot, focusing on the leaves with droplets of water on the cuticle. The gentle warmth of the natural light accentuates the waxy texture of the leaves, emphasizing their beauty. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "group-01",
+      "script": "Not enough to sustain the plant. Not what succulents rely on. So when you mist, you're watering the leaves and the surface of the soil.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball) in a terracotta pot. The succulent's leaves are glistening with fine droplets of water from misting, while the surface of the soil appears darkened and damp. The background is softly blurred, showcasing a warm, intimate home windowsill setting with natural light filtering through. Rich earthy tones dominate the scene, with hints of sage green and terracotta. The texture of the leaves is detailed, highlighting their geometric shapes, while the soil surface shows a slight sheen, indicating moisture. No hands or faces present. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-008",
+      "script": "But the root hairs, the actual drinking organs, are sitting down in the lower zone of the pot, dry, waiting.",
+      "auto_prompt": "A 16:9 widescreen mid-shot of Aeonium arboreum Zwartkop (Black Rose Aeonium) in a terracotta pot, showing the dry lower zone of the pot with root hairs visible in the soil. The light is warm and soft, highlighting the stark contrast between the healthy leaves and the dry soil below. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "group-02",
+      "script": "The water never reaches them. Here is what is actually happening in the pot when you mist.",
+      "auto_prompt": "A 16:9 widescreen close-up of a terracotta pot containing Echeveria elegans (Mexican Snowball) with visibly dry soil in the lower zone, while the top half-inch of soil appears dark and damp from misting. The soil texture is cracked and crumbly, indicating dryness below the surface. Soft natural window light highlights the contrast between the moist surface and the dry soil underneath. No human hands are present, focusing solely on the pot and the soil condition. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-011",
+      "script": "The top half inch to inch of soil absorbs the water.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball) in a terracotta pot. The top half-inch of the dark, rich soil is visibly damp, glistening in warm natural light, showing a contrast between the wet surface and the dry lower soil. Soft shadows create a calm ambiance. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "group-03",
+      "script": "It darkens. It looks like you have watered. But water only moves downward by gravity when there is enough of it to saturate the upper layers and flow through.",
+      "auto_prompt": "A 16:9 widescreen close-up of a terracotta pot containing Echeveria elegans (Mexican Snowball). The top inch of the soil is visibly darkened, indicating moisture, while the lower soil layer remains pale and dry. The lighting is warm and natural, filtering through a nearby window, casting soft shadows. The texture of the soil is rich and earthy, with small clumps and fine particles visible. No hands or faces are present, focusing solely on the pot and soil, capturing the moment of apparent hydration contrasted with the dry lower layer. No text, no logos.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-015",
+      "script": "A fine mist rarely delivers that volume.",
+      "auto_prompt": "A 16:9 widescreen close-up of Sedum morganianum (Burro's Tail) with a fine mist settling on the leaves, capturing the gentle, warm light of the environment. The surface of the soil is slightly darkened, indicating moisture, while the vibrant leaves display their thick texture. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "group-04",
+      "script": "so the moisture sits near the surface. It does not reach the root zone. Meanwhile, that surface stays damp, sometimes for hours, sometimes longer indoors.",
+      "auto_prompt": "A 16:9 widescreen close-up of a terracotta pot filled with Echeveria elegans (Mexican Snowball) on a soft linen surface. The top inch of the soil is visibly darkened and damp, while the lower zone appears pale and dry. Small droplets of water rest on the surface of the soil, capturing warm natural light. The texture of the soil is rich and earthy, with hints of light reflecting off the moisture. The scene is intimate and personal, evoking a botanical and editorial feel, with no faces or hands present. No text, no logos.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-019",
+      "script": "And damp surfaces are exactly where fungal spores thrive.",
+      "auto_prompt": "A 16:9 widescreen close-up of the surface of a terracotta pot filled with Echeveria elegans (Mexican Snowball). The soil surface is dark and damp, showing small patches of white powdery fungal growth. Soft natural light illuminates the scene, highlighting the texture of the wet soil and the contrast with the terracotta pot. Rich earthy tones dominate the image, creating a botanical and editorial feel. No hands or faces are present, only the focused shot of the pot and soil. No text, no logos.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-020",
+      "script": "Fungi like Fusarium, which works a bit like mold on bread, need persistent surface moisture to germinate and spread.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of the surface of damp soil in a terracotta pot, showing a fine layer of white powdery fungal growth resembling mold. The soil appears darkened and moist, with a few small, dry cracks visible beneath the surface. Soft natural window light highlights the texture of the soil and the fungal growth. Rich earthy tones dominate the scene, with the terracotta pot providing a warm contrast. No hands or faces are present, focusing solely on the soil and fungal details. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-021",
+      "script": "Succulents use a special kind of photosynthesis called CAM, Crassulation Acid Metabolism.",
+      "auto_prompt": "A 16:9 widescreen close-up of an Echeveria elegans (Mexican Snowball) rosette in the last warm light of dusk, the leaves catching a faint golden glow as the light fades. Setting: home windowsill, soft warm ambient light. Shallow depth of field. Rich earthy tones — terracotta, sage green, deep charcoal. Botanical and editorial feel. No text, no logos, no diagrams or illustrated overlays. Botanically accurate, photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-022",
+      "script": "Instead of opening their pores during the day like most plants, succulents open their stomata at night, when it is cooler and they lose less water to evaporation.",
+      "auto_prompt": "A 16:9 widescreen close-up of an Echeveria elegans (Mexican Snowball) leaf in warm backlit light, showcasing the intricate texture of the leaf surface. The leaf is glistening slightly, indicating moisture, with a focus on the tiny stomata openings. The background is softly blurred, featuring a warm, earthy color palette with hints of terracotta and sage green. Props include a terracotta pot partially visible at the bottom of the frame. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-023",
+      "script": "This is one of the reasons succulents handle dry conditions so well, they are operating on a different schedule.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball) in a terracotta pot. Setting: a sunlit windowsill, showcasing the plant's fleshy, vibrant leaves with a slight sheen. Soft natural light casts gentle shadows, emphasizing the geometric structure of the leaves. The surrounding soil is dry and cracked, contrasting with the healthy appearance of the plant. Rich earthy tones dominate the scene, with terracotta, sage green, and hints of deep charcoal. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-024",
+      "script": "But it also means that even the small amount of foliar moisture absorption that can happen through open stomata is most likely to occur at night.",
+      "auto_prompt": "A 16:9 widescreen close-up of an Echeveria Perle von Nurnberg (Pearl of Nuremberg) leaf glistening with tiny water droplets under warm backlit light, emphasizing the waxy cuticle. The leaf surface shows subtle details of the stomata, highlighted by the play of light. The background is softly blurred, creating a serene atmosphere. Props: a terracotta pot with earthy soil partially visible. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-025",
+      "script": "Misting in the morning, which is when most people do it, is spraying water onto closed pores.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria Perle von Nurnberg (Pearl of Nuremberg) in a terracotta pot. The succulent's geometric leaves are glistening with fine droplets of water from a misting spray bottle held above, capturing warm morning light. The leaves are visibly closed, with a soft focus on the waxy texture of the cuticle. The surface of the soil is darkened from the mist, with a gentle, earthy backdrop of the windowsill. No hands or faces are visible, only the serene plant scene. No text, no logos.",
+      "override_prompt": ""
+    }
+  ]
+}

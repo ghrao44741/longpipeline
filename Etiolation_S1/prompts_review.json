@@ -1,0 +1,280 @@
+{
+  "image_prompts": [
+    {
+      "scene_id": "group-01",
+      "script": "Your succulent is growing. It is taller than it was last month. It is putting out new leaves. Everything about that should be good news. But if the gaps between those leaves have been getting wider, you are not watching growth.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a home windowsill with soft natural window light. The plant shows visible bare stem between widely spaced leaves, with pale green coloration and no red edge coloring. The rosette is not tight and compact, but rather opened and flattened. Rich earthy tones surround the plant, including a terracotta pot and a linen surface. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Echeveria 'Perle von Nurnberg' (Pearl of Nuremberg). Setting: home windowsill, soft natural window light. The dusty pink-purple rosette looks superficially healthy and full of new leaves, but the gaps between the outer leaves are just beginning to widen, with a faint sliver of stem visible between them -- early, easy-to-miss stretching, not yet dramatic. Rich earthy tones, terracotta pot, linen surface. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-006",
+      "script": "You are watching your plant reach for light it cannot find.",
+      "auto_prompt": "A 16:9 widescreen close-up of Gasteria (Ox Tongue) with thick, tongue-shaped leaves in two flat opposing rows, sitting in a dimly lit corner. The leaves appear spaced further apart, indicating it's reaching for light. The background is softly blurred to emphasize the plant's condition, with warm tones reflecting the low light.",
+      "override_prompt": "16:9 widescreen. Warm cinematic extreme macro photograph of a Gasteria ox tongue plant in a dimly lit corner. Thick strap-shaped leaves with rounded blunt tips, lying almost flat and stacked in two opposing ranks like the pages of an open book, dark green skin covered in raised pale warty speckles, the ranks visibly loosening and spacing further apart than a freshly tight arrangement. Shallow depth of field, soft low ambient light. Rich earthy tones -- terracotta, sage green, deep charcoal. Botanical and editorial feel. Botanically accurate, photorealistic. No text, no logos, no blue or cool tones."
+    },
+    {
+      "scene_id": "SCENE-007",
+      "script": "Stretching is the only succulent problem that looks like success.",
+      "auto_prompt": "A 16:9 widescreen close-up of Aeonium arboreum (Green Aeonium) with visibly elongated stems and leaves, showing a flat rosette shape. The plant is placed on a warm windowsill, reflecting the light while appearing to stretch upwards. The overall color is muted, indicating a lack of sufficient light, with earthy tones in the environment.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "group-02",
+      "script": "Rot looks like damage. Shriveling looks like damage. A sunburned leaf looks like damage. But a stretching succulent looks like a plant that is thriving, so it gets encouraged instead of corrected.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light illuminating a pale green rosette with elongated, widely spaced leaves, showing visible bare stem between them. The leaves are upright and inward-pointing, indicating a search for light, with a subtle lack of anthocyanin coloration, appearing almost plain green. Rich earthy tones of the terracotta pot beneath it and a wooden surface nearby. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum rubrotinctum (Jelly Bean Plant). Setting: home windowsill, warm golden-hour light. The plant looks lush and vigorous at a glance -- plump green bean-shaped leaves, actively producing new growth -- but the stem beneath is visibly elongated and the leaves are spaced loosely along it, the deceptive 'thriving' look that gets a stretching plant encouraged instead of corrected. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-012",
+      "script": "And by the time the shape has visibly come apart, the damage is already permanent.",
+      "auto_prompt": "A 16:9 widescreen close-up of a rosette of Sempervivum tectorum (Hens and Chicks) displaying a tightly packed arrangement of leaves around a central stem. The leaves are vibrant green, with the rosette sitting in a rustic terracotta pot on a sunlit shelf, showcasing the healthy compression of the structure. The lighting is warm, enhancing the earthy tones of the pot and the plant.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Echeveria 'Perle von Nurnberg' (Pearl of Nuremberg). Setting: home windowsill, soft natural window light. The rosette has visibly come apart: long bare stem exposed between widely spaced leaves, the dusty pink-purple color faded and patchy, no longer forming a tight symmetrical dome -- structural damage that is already permanent, not a plant that can simply tighten back up. Rich earthy tones, terracotta pot, linen surface. Not a tight compact rosette. No symmetrical dome. No fantasy or biologically impossible plant forms. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-013",
+      "script": "I am going to count down 10 succulents that stretch when the light is not enough, starting with the ones that hide it well and ending with the one that loses the most.",
+      "auto_prompt": "A 16:9 widescreen cinematic shot of Echeveria elegans (Mexican Snowball). Setting: a warm, intimate home windowsill, bathed in soft natural window light. The plant is visibly stretched, with noticeable gaps between the leaves and a flattened rosette shape, lacking the usual tight compact form. The leaves are pale green, lacking vibrant red edges, and tilt slightly upward. The background features a terracotta pot with rich earthy tones, complemented by a wooden surface. No hands or faces are present, focusing solely on the plant's stretched condition. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum morganianum (Burro's Tail). Setting: hanging basket on a home windowsill, soft natural light. Trailing stems with plump blue-green teardrop leaves -- the naturally loose, cascading form makes early stretching easy to miss, exactly the kind of succulent that 'hides it well.' Rich earthy tones, terracotta hanging pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-014",
+      "script": "The fix is nearly the same for every plant on this list.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light casting gentle shadows. The plant shows a tight, compact rosette with no visible internode gaps, rich pastel colors, and healthy leaves. Props: a terracotta pot with a slight sheen, a copper watering can resting beside it, and a wooden plant care tool placed on a linen surface. No hands or faces are visible; the focus is solely on the plant and its surroundings. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium 'Sunburst' (Sunburst Aeonium). Setting: home windowsill, warm golden-hour light bringing out its cream and yellow variegation with pink-blushed leaf tips. The rosette shows visible stretching -- leaves spaced along an elongating stem -- still in its current, uncorrected state; no fix has been shown yet. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-03",
+      "script": "It is more light. But not the way most people do it and doing it the obvious way is how a stretched plant gets killed.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a softly lit home windowsill, with warm golden-hour sunlight filtering through a sheer curtain. The plant is visibly elongated, with pale green leaves that are widely spaced along a bare stem, showing clear internode gaps. The rosette is not tight and compact, but rather flattened and open, lacking the symmetrical dome that characterizes a healthy specimen. Rich earthy tones of the terracotta pot contrast with the plant's color. A brass watering can is subtly positioned in the background, hinting at the context of care without showing any human hands or faces. No text, no logos. Botanically accurate. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aloe vera. Setting: home windowsill, soft natural window light. Long lance-shaped pale grey-green leaves in an upright rosette, visibly elongated and loosely spaced, thin and vulnerable-looking -- exactly the kind of stressed tissue that sudden bright light would scorch rather than fix. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-04",
+      "script": "I will give you the exact method at number 1. First you need to know what is actually happening because it changes what you are looking at.",
+      "auto_prompt": "A 16:9 widescreen cinematic shot of Echeveria elegans (Mexican Snowball) showing a stretched rosette. The rosette is visibly open and flattened, with widely spaced leaves revealing bare stem between them. The leaves are pale green, lacking the typical red edge coloration. The background is a softly blurred home windowsill, bathed in warm golden-hour sunlight, highlighting rich earthy tones of terracotta and sage green. Props include a terracotta pot in the foreground, with natural linen texture softly draping nearby. No people or hands are present, ensuring a focus on the plant's condition. No text, no logos.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Kalanchoe blossfeldiana (Flaming Katy). Setting: home windowsill, soft natural window light. Glossy dark green scalloped leaves on a stem that has begun to lengthen, small flower clusters held at the top, the plant's overall form not yet explained to the viewer -- a quiet establishing shot before the mechanism is broken down. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-05",
+      "script": "A rosette is not a special structure. It is an ordinary stem where the gaps between the leaves have been squeezed down to almost nothing.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light illuminating the plant. The rosette is visibly open and flattened, with visible bare stem between widely spaced leaves, highlighting the elongated internodes. Rich earthy tones of terracotta and sage green. Props: a terracotta pot beneath the plant, with dark, damp soil visible at the base. No text, no logos. Photorealistic detail capturing the geometry of the stretched structure.",
+      "override_prompt": "16:9 widescreen. Warm cinematic extreme macro photography of Haworthia cooperi (Window Haworthia). Setting: home windowsill, soft natural window light. A tightly clustered dome of translucent, fleshy leaf tips packed so closely the gaps between them are almost invisible, pale green with visible internal windows -- the ordinary, healthy baseline structure of a rosette, gaps squeezed down to almost nothing. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-06",
+      "script": "Botanists call those gaps internodes. Picture a stack of coins pressed tightly together.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill with soft natural window light. The plant shows visible gaps between widely spaced leaves, highlighting elongated internodes. The rosette is not a tight compact formation, with leaves separating along a stem that was always present. Rich earthy tones of terracotta pot and sage green foliage. Background softly blurred to create a shallow depth of field, enhancing the focus on the internodes. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic extreme macro photography of Haworthia cooperi (Window Haworthia). Setting: home windowsill, soft natural window light. Same tightly clustered dome as before, leaves pressed together in concentric layers like a stack of coins, the translucent windowed tips catching the light -- illustrating the internode structure while it is still compact. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-023",
+      "script": "The leaves spiral around a stem, but because that stem barely lengthens between them, they pile up into a tight disk.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light illuminating the scene. The image shows a rosette of tightly packed leaves spiraling around a short, barely visible stem, creating a compact disk shape. The leaves are a lush green, arranged in a perfect spiral, with a smooth texture and slight sheen. The background features a terracotta pot, hinting at rich earthy tones, with blurred edges to emphasize the plant's form. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic extreme close-up of Haworthia cooperi (Window Haworthia). Setting: home windowsill, soft natural window light. The leaves spiral tightly around a barely-visible central stem, piled into a compact disc shape, translucent pale green windows catching the light -- the stem barely lengthens between leaves here. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-024",
+      "script": "So when a succulent stretches, it is not getting taller the way a tree gets taller.",
+      "auto_prompt": "A 16:9 widescreen cinematic shot of Sedum rubrotinctum (Pink Jelly Beans) with elongated stems and spaced out leaves, indicating stretching. The plant is surrounded by soft warm light, with a blurred background of a garden setting that highlights the plant's pale colors and the gaps between its leaves.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "group-07",
+      "script": "The rosette is coming apart. Those internodes are lengthening, and the leaves are separating along a stem that was always there.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light casts gentle shadows. The rosette shows visible bare stem between widely spaced leaves, emphasizing elongated internodes. The leaves are separating and no longer forming a tight compact rosette, creating an open and flattened appearance. Rich earthy tones of terracotta and sage green dominate the scene. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Ceropegia woodii (String of Hearts). Setting: home windowsill, soft natural window light. Trailing wiry stems bearing small heart-shaped leaves, silver-marbled on top with purple undersides, now visibly coming apart -- the heart-shaped leaves separating along a stem that was always there, gaps between them widening. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-08",
+      "script": "Same coins spread along a ruler. Here is why that matters so much. When light is low, the plant runs a program that lengthens the cells it already has rather than building new ones.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill with soft natural window light. The plant's rosette is visibly opened and flattened, with noticeable internode gaps between widely spaced leaves. The leaves are pale green, lacking any red edge coloration, indicating low light stress. Rich earthy tones of the terracotta pot contrast with the plant's color. No faces or hands are visible. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Kalanchoe blossfeldiana (Flaming Katy). Setting: home windowsill, soft natural window light. Glossy dark green scalloped leaves spaced increasingly far apart along a lengthening stem, cells stretched out rather than new ones built -- the same structure as before, just spread out along more stem. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-030",
+      "script": "A hormone called auxin loosens the cell walls so each cell can stretch out lengthways, like a balloon being pulled.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a home windowsill with soft natural window light. The succulent displays elongated internodes with visibly stretched cells, showing gaps between the leaves that are spreading apart. The leaves are pale green, lacking the typical vibrant red edge coloring. The texture of the leaf surfaces appears slightly glossy, emphasizing their elongated shape. In the background, a terracotta pot sits on a linen surface, adding a warm earthy tone to the scene. No faces or hands are present, only the plant in focus. No text, no logos.",
+      "override_prompt": "16:9 widescreen. Warm cinematic extreme macro photography of Aloe vera. Setting: home windowsill, soft natural window light emphasizing texture. A single elongated leaf caught mid-stretch, cell structure visibly drawn out lengthwise, pale grey-green surface slightly glossy and taut. Rich earthy tones, terracotta pot in soft focus behind. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-031",
+      "script": "That is fast, and it is cheap for the plant, and it is a genuinely good strategy if you are a seedling buried under leaf litter trying to reach the surface.",
+      "auto_prompt": "A 16:9 widescreen close-up of Lithops (Living Stones) partially emerging from the soil, showing a flattened surface with a translucent top. The surrounding soil is dry and rocky, with warm sunlight illuminating the plant, revealing its unusual form as it stretches upward, losing its stone-like appearance. The overall scene captures the unique nature of this species.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of a young Echeveria 'Perle von Nurnberg' (Pearl of Nuremberg) seedling. Setting: a shaded garden bed with dry leaf litter, soft natural light. The seedling's dusty pink-purple leaves are visibly elongated on a thin pale stem, straining upward past the surrounding leaf litter toward a gap of light -- the survival strategy this mechanism evolved for. Rich earthy tones, dark soil. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-09",
+      "script": "But nothing shrinks a stretched cell back. Better light stops the stretching from continuing.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill with soft natural window light. The plant displays visible bare stem between widely spaced leaves, indicating stretching. The leaves are pale green with no red edge coloring, lacking the vibrant hues typical of healthy, compact specimens. Rich earthy tones of the terracotta pot contrast with the plant's color. The background is softly blurred, enhancing the focus on the stretched rosette. No hands or faces are visible. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum morganianum (Burro's Tail). Setting: hanging basket on a home windowsill, soft natural window light now noticeably brighter. Trailing stems with plump blue-green teardrop leaves, the older lower growth still visibly stretched and loosely spaced -- better light has arrived but the existing stretched growth remains unchanged; nothing shrinks it back. Rich earthy tones, terracotta hanging pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-10",
+      "script": "It does not undo what already happened. You cannot fix a stretched succulent. You can only fix the next few inches of it. There is one more thing worth knowing before we start, because it is the earliest warning and almost nobody recognizes it.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light illuminating the plant, highlighting its pale green leaves. The rosette is visibly opened and flattened, with visible gaps between widely spaced leaves, showing significant internode lengthening. The color is faded, lacking the typical red edge coloring, appearing pale green. The background is softly blurred, enhancing the focus on the plant's stretched form. Rich earthy tones of the terracotta pot complement the scene. No text, no logos. No faces, only the succulent in its state of stretching. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum rubrotinctum (Jelly Bean Plant). Setting: home windowsill, soft natural window light. The lower stem shows old, permanently elongated growth with widely spaced leaves, while the newest tip growth is slightly tighter -- the plant can only fix the next few inches of itself, not what already happened. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-038",
+      "script": "The reds, the purples, the deep bronze edges on a stressed succulent are mostly pigments the plant produces in response to strong light.",
+      "auto_prompt": "A 16:9 widescreen close-up of Kalanchoe tomentosa (Panda Plant) with fuzzy leaves and rust-brown markings. The leaves are clustered closely together, showing signs of spacing issues. Warm, diffused sunlight highlights the texture of the fuzzy leaves, while a soft background enhances the plant's details in a cozy home environment.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum rubrotinctum 'Aurora' (Pink Jelly Beans). Setting: home windowsill in strong, bright natural light. Small bean-shaped leaves showing vivid red-coral tips over a pale pink-green base -- the strong-light pigmentation this species is known for, produced in direct response to bright sun. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-11",
+      "script": "In low light it simply stops making them. So your plant turns plain green weeks before its shape changes at all.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill with soft natural window light. The plant is displaying pale green leaves with no red edge coloring, indicating a loss of anthocyanins. The leaves are arranged in a tight rosette, but the overall color is muted and lacks vibrancy. Rich earthy tones in the background, including a terracotta pot and a linen surface. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum rubrotinctum 'Aurora' (Pink Jelly Beans). Setting: home windowsill, dim indirect light. The same bean-shaped leaves now uniformly pale pink-green with none of the vivid red-coral tips from before -- the plant has simply stopped producing that pigment in low light, weeks before any shape change is visible. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-12",
+      "script": "Most people put that down to the season. It is actually the first signal.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill with soft natural window light. The plant displays pale green leaves with no red edge coloring, indicating a loss of anthocyanins. The rosette is not a tight compact form; instead, it shows visible gaps between the leaves. The background features a terracotta pot and soft linen surfaces, creating a warm, intimate atmosphere. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum rubrotinctum 'Aurora' (Pink Jelly Beans). Setting: home windowsill, dim indirect light. Plain pale pink-green leaves with no red-coral coloring, sitting in a pot beside a window with muted daylight -- easy to mistake for a seasonal color shift, but actually the earliest warning sign. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "item-10",
+      "script": "Number 10 is Gasteria, sometimes sold as Ox Tongue. Its thick tongue-shaped leaves sit in two flat opposing rows, and it tolerates low light better than anything else on this list, which is exactly why it belongs here. Growers see it surviving in a dim corner and conclude it is happy there. What actually happens is slow. The leaves space further apart, and that tight overlapping arrangement gradually loosens. It handles low light better than anything else here. That is not the same as liking it.",
+      "auto_prompt": "A 16:9 widescreen close-up of Gasteria (Ox Tongue). Setting: home windowsill, intimate and personal. Soft natural window light illuminating the thick, tongue-shaped leaves arranged in two flat opposing rows. The leaves are visibly spaced further apart, showing a loosening from their previously tight overlapping arrangement. Rich earthy tones of terracotta and deep green dominate the scene. Props: a terracotta pot and a wooden surface. No faces, only faceless human hands gently touching the leaves. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic extreme macro photograph of a Gasteria ox tongue plant. Thick strap-shaped leaves with rounded blunt tips, lying almost flat and stacked in two opposing ranks like the pages of an open book, dark green skin covered in raised pale warty speckles. Home windowsill setting. Shallow depth of field, natural golden-hour soft diffused window light. Rich earthy tones -- terracotta, sage green, deep charcoal. Botanical and editorial feel. Botanically accurate, photorealistic. No text, no logos, no blue or cool tones."
+    },
+    {
+      "scene_id": "item-09",
+      "script": "Number 9 is Aeonium arboreum. This one hides the problem in plain sight, because it is supposed to have a visible stem. Aeoniums grow as rosettes on top of woody branching stems, so bare stem does not read as a warning. What you look for instead is the rosette itself going flat and sparse rather than full and domed, with the leaves spacing out toward the tip. It is meant to be tall. That is what lets it get away with it.",
+      "auto_prompt": "A 16:9 widescreen close-up of Aeonium arboreum (Green Aeonium). Setting: home windowsill with soft natural window light illuminating the scene. The plant features a visible woody stem with a rosette that appears flat and sparse, leaves spacing out toward the tip rather than forming a full, domed shape. The colors are a rich green, with the woody stem in earthy browns. Background details include a terracotta pot and a soft linen surface, creating an intimate and personal atmosphere. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-08",
+      "script": "Number 8 is Haworthiopsis fasciata, the zebra plant, still widely sold as Haworthia fasciata. It breaks the pattern everyone is taught to watch for. Instead of opening outward, it elongates upward, so the leaves point almost straight up and the whole plant becomes a narrow column with bare stems showing at the base. It does not fall apart. It grows a neck. Three down, and none of them are the one that is probably sitting on your windowsill right now.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Haworthiopsis fasciata (Zebra Plant). Setting: home windowsill. Soft natural window light illuminating the plant. The narrow column of the plant is visible, with elongated leaves pointing almost straight up, and bare stems showing at the base. Rich earthy tones of the terracotta pot contrasting with the green and white striped leaves. Shallow depth of field focusing on the plant, with a hint of a wooden surface underneath. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-07",
+      "script": "Number 7 is Kalanchoe tomentosa, the panda plant. Its leaves are covered in dense silvery fuzz with rust-brown markings along the edges, and that fuzz is part of the problem, because it makes the spacing between leaves genuinely hard to read. It is also slow-growing, so the damage accumulates quietly across a whole winter before anyone notices. The fuzz hides the gaps until the gaps are the point.",
+      "auto_prompt": "A 16:9 widescreen close-up of Kalanchoe tomentosa (Panda Plant). Setting: home windowsill with soft natural window light. The plant displays its dense silvery fuzz covering the leaves, with rust-brown markings along the edges. The leaves are spaced apart, showing visible gaps between them, highlighting the issue of hidden spacing. The background features a warm terracotta pot and a linen surface, creating an intimate and personal atmosphere. Shallow depth of field emphasizes the texture of the fuzz and the leaf spacing. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-06",
+      "script": "Number 6 is Portulacaria afra, the elephant bush. This one grows quickly whether the light is good or not, and that speed is exactly what fools people. In strong light it thickens into a dense little tree. In poor light it puts out long, thin, weak stems with small round leaves spaced far apart, and the owner sees a plant that is very clearly growing. It grows fast either way. Only one of those is growth you want.",
+      "auto_prompt": "A 16:9 widescreen close-up of Portulacaria afra (Elephant Bush). Setting: a home windowsill with soft natural window light. The plant features long, thin stems with small round leaves spaced far apart, visibly elongated and weak. The leaves are bright green, with some showing slight yellowing at the tips. The soil in the terracotta pot is dry and crumbly, indicating insufficient moisture. Rich earthy tones dominate the scene, with a warm, inviting atmosphere. No faces or hands are present, focusing solely on the plant's stretched form. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-05",
+      "script": "Number 5 is Crassula ovata, the jade plant. Jade legginess gets misread as maturity more than anything else on this list. The stems lengthen, the leaves cluster only at the tips, and long bare sections open up in between. People think it is finally becoming a tree. It is just reaching. Halfway. Everything left is something you have almost certainly seen on a shelf at a garden center.",
+      "auto_prompt": "A 16:9 widescreen close-up of Crassula ovata (Jade Plant). Setting: a home windowsill with soft natural light filtering through a nearby window. The jade plant displays elongated stems with visible bare sections between leaves, which are clustered tightly at the tips. The leaves are a rich green, glossy, and healthy-looking, contrasting with the bare stems. The background includes a terracotta pot with a textured surface and a few small pebbles scattered around the base. The lighting is warm and inviting, highlighting the jade plant's features. No text, no logos. No blue or cool tones. No faces or hands present. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-04",
+      "script": "Number 4 is Curio rowleyanus, String of Pearls, still sold as Senecio rowleyanus. When light is too low the strands thin out and the pearls space further and further apart along the stem. And here is the trap. Gappy, sparse strands look exactly like a plant that needs water, so the owner waters it more, which does nothing at all for a light problem and quietly creates a second one. Gappy pearls look thirsty. They are just dark. Top 3 These are the ones beginners lose most.",
+      "auto_prompt": "A 16:9 widescreen close-up of Curio rowleyanus (String of Pearls). Setting: a cozy home windowsill, softly illuminated by natural light. The scene captures thin, elongated strands of the plant with widely spaced pearls, showcasing a pale green color with no vibrant hues. The background features a terracotta pot resting on a linen surface, enhancing the earthy tones. The light highlights the gaps between the pearls, emphasizing the sparse appearance of the strands. No human hands or faces are present. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-03",
+      "script": "Number three is Sempervivum tectorum, hens and chicks. Sempervivum has the widest gap between where it evolved and where it ends up of anything here. It is an alpine plant, adapted to full unfiltered mountain sun, sold on a shelf as a neat little indoor succulent. Because its rosette is normally so tight and geometric, the stretching is dramatic when it finally shows. It evolved on a mountainside. You put it on a bookshelf.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Sempervivum tectorum (Hens and Chicks). Setting: a cozy indoor shelf with a wooden surface, surrounded by soft natural light filtering in through a nearby window. The plant features a visibly stretched rosette, showing significant gaps between the leaves, which are pale green and lack the usual tight geometric structure. The background includes hints of terracotta pots and a few other indoor plants, all in rich earthy tones. The lighting enhances the contrast between the stretched rosette and the surrounding decor, creating a warm and inviting atmosphere. No faces, no text, no logos.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-02",
+      "script": "Number 2 is Lithops, the Living Stones. This one fails in a completely different way, and it fails hard. A healthy Lithops sits almost flush with the gravel, a pair of fused leaves with a translucent window on top. In low light the body elongates upward instead, losing that stone profile, going soft, and eventually toppling under its own weight. It does not stretch. It grows a stalk and falls over.",
+      "auto_prompt": "A 16:9 widescreen close-up of Lithops (Living Stones). Setting: a small nursery with a textured gravel substrate. Soft natural window light illuminating the scene. The Lithops plant has a pair of fused leaves that are almost flush with the gravel, featuring a translucent window on top. The leaves are pale green with subtle markings, showing signs of elongation and softness, indicating distress. The surrounding gravel is light gray with small pebbles. No other plants or objects are present in the frame. No text, no logos. Photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "item-01",
+      "script": "Number 1 is Echeveria elegans, the Mexican snowball. This is the most widely owned rosette succulent there is, and it has the most to lose. That tight symmetrical disc of pale gray-green leaves is the entire reason people buy it. It is also precisely the structure that comes apart. The internodes lengthen, the rosette opens like a flower that will not close again, and bare stem appears underneath. Because the rosette is the whole point of the plant, once it opens there is nothing left. The shape you bought it for is the first thing it loses.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill with soft natural window light. The plant displays a tight, pale gray-green rosette that has visibly opened, revealing elongated internodes and bare stem underneath. The leaves are spaced apart, no longer forming a compact disc, and the overall structure looks flattened and loose. Rich earthy tones of terracotta pot and surrounding surface enhance the botanical feel. No text, no logos, photorealistic.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-105",
+      "script": "So here is the fix I promised, and here is the part that matters most.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball) placed on a bright windowsill with sunlight streaming in. The plant is lush and vibrant, showcasing its compact form. The warm light brings out the rich colors of the leaves and the terracotta pot, creating an inviting atmosphere that emphasizes healthy growth.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium 'Sunburst' (Sunburst Aeonium). Setting: home windowsill, warm golden-hour light. The cream and yellow variegated rosette shows visible stretching along its stem, leaves spaced apart -- still in its current state, the fix about to be explained rather than already applied. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-106",
+      "script": "Your instinct, once you know the problem is light, is to move the plant somewhere bright.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball) in a terracotta pot, sitting on a home windowsill. The plant displays visible internode gaps and pale green leaves with no red edge coloring, indicating stretching due to insufficient light. Soft natural sunlight streams through the window, casting gentle shadows on the plant and the terracotta. The background is softly blurred, creating a warm and intimate atmosphere. No faces or hands are visible in the scene. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aloe vera. Setting: a dim indoor corner beside a bright sunny window, soft contrast between the two light levels visible in frame. The pale grey-green rosette sits in the dim corner, elongated and thin, with the bright window glowing invitingly just out of reach -- the pull toward the obvious, risky move. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-23",
+      "script": "Do not do that suddenly. A stretched succulent has grown thin, weakly pigmented tissue with far less of the protective pigment it would normally carry.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill. Soft natural window light. The plant displays elongated stems with visible gaps between widely spaced leaves, pale green coloration lacking the usual red edges, and thin, weakly pigmented tissue. Rich earthy tones of terracotta pot contrasting with the light. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic extreme macro photography of Kalanchoe blossfeldiana (Flaming Katy). Setting: home windowsill, soft diffused light. A single stretched leaf shown in close detail, its surface thin and pale, visibly lacking the deeper pigmentation of a sun-hardened leaf -- fragile, under-protected tissue. Rich earthy tones, terracotta pot softly blurred behind. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-109",
+      "script": "Moving it straight from a dim corner onto a sunny windowsill or outdoors will scorch it, often within a few days, and sunburn leaves permanent bleached patches.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a sunny windowsill with bright sunlight streaming in. The plant is visibly sunburned, with several leaves displaying permanent bleached patches and scorched edges. The background shows a blurred view of a garden outside the window, adding warmth to the scene. Rich earthy tones are present in the terracotta pot. Soft natural light highlights the texture of the leaves, emphasizing the contrast between healthy and damaged areas. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum morganianum (Burro's Tail). Setting: a sunny windowsill in direct harsh sunlight. Several of the plump blue-green teardrop leaves show fresh scorch damage -- pale bleached patches and dried, crisped edges -- from being moved into direct sun too abruptly. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-110",
+      "script": "The obvious correction is the one that kills the plant.",
+      "auto_prompt": "A 16:9 widescreen mid-shot of a person gently rotating a pot of Crassula ovata (Jade Plant) on a sunlit table. The person’s hands are engaged in the task, and the plant appears healthy but is showing slight signs of stretching. The warm light casts soft shadows, enhancing the earthy tones of the scene.",
+      "override_prompt": ""
+    },
+    {
+      "scene_id": "SCENE-111",
+      "script": "Increase the light gradually, over one to two weeks, Start with brighter and direct light or a couple of hours of direct sun a day and build from there.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a bright home windowsill with sunlight streaming in. The plant is positioned in a terracotta pot, surrounded by soft, warm natural light. The leaves are plump and vibrant, showing a healthy green color. A few hours of sunlight is casting soft shadows on the surface of a linen cloth beneath the pot. Rich earthy tones dominate the scene, with the terracotta pot contrasting against the green leaves. No hands or faces are visible, just the plant basking in the light. No text, no logos.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Haworthia cooperi (Window Haworthia). Setting: home windowsill positioned a few steps back from the window in bright but indirect light. The tightly clustered dome of translucent leaf tips sits comfortably in this gentler light level, a calmer, more gradual starting point than direct sun. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-112",
+      "script": "Rotate the pot regularly as well because a plant lit from one side will lean toward it.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball) in a terracotta pot, showing the plant leaning slightly to one side. The leaves are a pale green with no red edge coloring, and the soil is dark and moist. Soft natural window light illuminates the scene, creating gentle shadows. In the background, a faint glimpse of a wooden windowsill is visible, enhancing the intimate home setting. No hands or faces present. Photorealistic, botanical and editorial feel.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Ceropegia woodii (String of Hearts) in a hanging terracotta pot near a window, one side of the plant visibly longer and leaning toward the light source, the trailing stems on that side denser with heart-shaped leaves than the shaded side. Soft natural window light. Rich earthy tones. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-113",
+      "script": "For the plant you already have there are three honest options.",
+      "auto_prompt": "A 16:9 widescreen mid-shot of Echeveria elegans (Mexican Snowball) in a terracotta pot on a sunlit windowsill. The plant is slightly elongated, with visible gaps between its leaves, showing signs of stretching due to insufficient light. The surrounding environment includes soft natural window light casting gentle shadows, rich earthy tones of the pot, and a few small, natural wooden tools placed nearby on a linen surface. No hands or faces are present, maintaining focus on the plant and its immediate setting. No text, no logos.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Echeveria 'Perle von Nurnberg' (Pearl of Nuremberg). Setting: home windowsill, soft natural window light. The dusty pink-purple rosette shows clear stretching -- widely spaced leaves, bare stem visible -- shown plainly as a subject about to be discussed, without any particular option yet applied. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-114",
+      "script": "You can accept it and correct forward, giving it better light from now on, so new growth comes in tight and the plant becomes a visible record of its own history.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a sunlit home windowsill with warm golden-hour sunlight streaming in. The plant is in a terracotta pot, showing a tight, compact rosette with vibrant green leaves. Visible new growth emerges from the center, demonstrating a healthy, compact structure, while older, slightly elongated leaves are present below, showcasing the plant's history of growth. Rich earthy tones dominate the scene, with soft natural light highlighting the textures of the leaves. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Sedum rubrotinctum (Jelly Bean Plant). Setting: home windowsill, bright natural light. The lower stem carries old, permanently elongated growth with widely spaced leaves, while fresh new growth at the tip is noticeably tighter and more compact -- a visible record of the plant's own history, corrected only going forward. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-115",
+      "script": "You can cut the compact top rosette off, let the cut dry and seal for several days, and root it as a new plant.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill with a soft natural window light illuminating the scene. The image shows a healthy, compact top rosette freshly cut from a larger plant, resting on a terracotta pot. The cut surface of the rosette is slightly dried, indicating preparation for sealing, with a few tiny soil particles scattered nearby. The background features soft, blurred green foliage, creating a warm and inviting atmosphere. Rich earthy tones of terracotta and green dominate the image, enhancing the botanical feel. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium arboreum 'Zwartkop' (Black Rose Aeonium). Setting: a potting bench with a wooden surface, soft natural light. A compact deep purple-black rosette has been cut cleanly from its stem and now rests cut-side up, the pale cut surface visibly drying and beginning to callus, left uncovered to seal for several days before rooting. Rich earthy tones, small terracotta pot and pruning shears nearby. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-116",
+      "script": "Or you can propagate the stretched section, because those spaced out leaves and nodes are all still perfectly viable.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light. The image shows a stretched Echeveria with visibly spaced-out leaves and nodes, pale green color with no red edge coloring, and visible bare stem between the leaves. The plant is in a terracotta pot on a linen surface. No hands or faces are present. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Graptopetalum paraguayense (Ghost Plant). Setting: a wooden potting bench, soft natural light. A stretched stem section with pale lavender-grey, slightly translucent leaves spaced widely along it has been laid across moist soil in a shallow terracotta tray, its spaced-out leaves and nodes clearly still plump and viable, ready to root. Rich earthy tones. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-117",
+      "script": "What you cannot do is wait for it to fill back in.",
+      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, with rich earthy tones of terracotta and sage green. The plant is visibly stretched, showing significant gaps between widely spaced leaves, and the rosette is opened and flattened, lacking its tight compact structure. The leaves are pale green with no red edge coloring, indicating a loss of anthocyanins. Soft natural window light illuminates the scene, creating a botanical and editorial feel. No text, no logos. No blue or cool tones. No fantasy or biologically impossible plant forms. Botanically accurate. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium 'Sunburst' (Sunburst Aeonium). Setting: home windowsill, soft natural window light. The cream and yellow variegated rosette remains visibly stretched, gaps between leaves unchanged, with no new tight growth yet -- the honest, uncorrected state that better light will not retroactively undo. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-24",
+      "script": "It will not. That single false hope is the reason most people wait far too long.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball) showing a severely elongated rosette with widely spaced leaves and visible bare stem. The leaves are pale green, lacking the typical vibrant color, with no signs of red edge pigmentation. The plant is set against a soft, warm background, illuminated by gentle natural light, highlighting the contrast between the stretched form and the terracotta pot it's in. Rich earthy tones dominate the scene, creating a botanical and editorial feel. No faces, no text, no logos.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aloe vera. Setting: home windowsill, soft natural window light. The elongated, thinly spaced rosette sits unchanged in its pot, still waiting, the false hope of it simply filling back in visibly not happening. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "group-25",
+      "script": "Your succulent was never just getting taller. It was looking for something. Give it that, and everything it grows from here will show it.",
+      "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a sunlit home windowsill with a terracotta pot. The plant shows elongated internodes with visible gaps between leaves, pale green color with no red edge coloring, and leaves tilting upward. Soft natural window light illuminates the scene, creating rich earthy tones. The background is softly blurred, emphasizing the stretched rosette. No human hands or faces are present. No text, no logos. Photorealistic.",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Ceropegia woodii (String of Hearts) trailing from a hanging terracotta pot toward a nearby window, its silver-marbled heart-shaped leaves and thread-like stems visibly reaching and leaning toward the light source. Soft natural window light, gentle golden warmth. Rich earthy tones. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    }
+  ]
+}
