@@ -619,16 +619,18 @@ def mix_background_music(video_path: str, bgm_path: str,
 # CAPTION BURN (SRT — landscape-appropriate, bottom-third)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def burn_srt_captions(video_path: str, srt_path: str, output_path: str, fontsize: int = 36):
+def burn_srt_captions(video_path: str, srt_path: str, output_path: str, fontsize: int = 36,
+                      bold: int = 0, outline: int = 1, margin_v: int = 72):
     """
     Burn SRT captions into the video using ffmpeg subtitles filter.
-    Uses bottom-third positioning (Alignment=2, MarginV=40) and a clean
+    Uses bottom-third positioning (Alignment=2, MarginV configurable) and a clean
     white font with black outline — appropriate for 1920×1080 landscape.
 
-    fontsize default of 36 here is only the function's own fallback if config lookup
-    fails; the real value is channel_dna's "caption_fontsize" (28 as of 2026-08-11,
-    lowered from an initial 36 placeholder after review found the burned block too
-    dominant on a 10-minute video — see CLAUDE.md).
+    fontsize/bold/outline/margin_v defaults here are only the function's own fallback if
+    config lookup fails; the real values are channel_dna's "caption_fontsize" (22 as of
+    2026-08-11), "caption_bold", "caption_outline", "caption_margin_v" — lowered/lightened
+    from an initial 36/Bold=1/Outline=2/MarginV=40 combination after review found the burned
+    block too dominant on a 10-minute video (see CLAUDE.md).
     """
     # ffmpeg needs forward slashes and escaped colons in Windows paths
     srt_ff = srt_path.replace("\\", "/").replace(":", "\\:")
@@ -637,11 +639,11 @@ def burn_srt_captions(video_path: str, srt_path: str, output_path: str, fontsize
         "-i", video_path,
         "-vf", (
             f"subtitles='{srt_ff}':force_style='"
-            f"FontName=Arial,FontSize={fontsize},Bold=1,"
+            f"FontName=Arial,FontSize={fontsize},Bold={bold},"
             "PrimaryColour=&H00FFFFFF,"
             "OutlineColour=&H00000000,"
-            "Outline=2,Shadow=0,"
-            "Alignment=2,MarginV=40'"
+            f"Outline={outline},Shadow=0,"
+            f"Alignment=2,MarginV={margin_v}'"
         ),
         "-c:v", "libx264", "-c:a", "copy",
         "-pix_fmt", "yuv420p",
@@ -1022,7 +1024,10 @@ def main():
         print(f"Burning captions from {srt_path}...")
         config = load_config(os.path.dirname(os.path.abspath(__file__)), project_dir)
         burn_srt_captions(final_video, srt_path, captioned_out,
-                          fontsize=config.get("caption_fontsize", 36))
+                          fontsize=config.get("caption_fontsize", 36),
+                          bold=config.get("caption_bold", 0),
+                          outline=config.get("caption_outline", 1),
+                          margin_v=config.get("caption_margin_v", 72))
         print(f"✓ Captioned: {captioned_out}")
     else:
         print(f"⚠️  SRT not found at {srt_path} — skipping burn")

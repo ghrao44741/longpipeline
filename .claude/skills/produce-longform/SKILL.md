@@ -209,6 +209,25 @@ Show them `prompts_review.json`. Check that every prompt:
   a hand repotting it into gritty mix. In a listicle, the fix appears once, at #1.
 - is 16:9, not 9:16
 
+**For every grouped shot (a `scene_id` like `group-07`, one image spanning several scenes'
+`whisperx_start`/`end`), read the FULL combined `script` text for that entry, not just its
+last sentence, and ask: does one static image (held with Ken Burns) actually work for
+*every* line in that span, not only the line the auto-generated prompt happened to key off?
+This is a real, confirmed failure mode, not a hypothetical: on Etiolation_S1, one group held
+across four sentences — "Rot looks like damage. Shriveling looks like damage. A sunburned
+leaf looks like damage. But a stretching succulent looks like a plant that is thriving" —
+got a single "looks lush and thriving" image. The image was a perfectly reasonable match for
+the *last* sentence and a flat contradiction of the first three, and nothing in prompt review,
+`--dry-run-prompts`, the contact sheet, or `verify_output.py` catches this, because the prompt
+text itself is entirely self-consistent — the mismatch is between the prompt and the *other*
+sentences sharing its shot, not a flaw in the prompt read alone. When a grouped shot's script
+spans genuinely different states (several distinct symptoms, a before/after, a list of
+examples), **split it into separate shots** — remove the shared `visual_group_id` for the
+scenes that need their own image (each scene then keys by its own `scene_id`) — rather than
+writing one prompt that tries to average across all of them. Rhetorical-list narration
+("X looks like damage. Y looks like damage. Z looks like damage. But W looks like success.")
+is the pattern most likely to trigger this — watch for it specifically.
+
 **Quote the paths.** A `--prompts-file` path with unquoted Windows backslashes has silently
 mangled itself in this project before. It now hard-fails rather than substituting fresh
 prompts, but quote them anyway.
@@ -230,6 +249,12 @@ ffmpeg -y -ss 120 -i <Project>/output/<Project>_captioned.mp4 -frames:v 1 check.
 Confirm: 1920×1080, captions readable in the bottom third, watermark present, BGM audible and
 under the voice.
 
+**For any grouped shot spanning multiple distinct narration lines, extract a frame at more
+than one point in its window** (start, middle, near its end), not just one — a single frame
+can look fine while a later line in the same held image is contradicted. See Step 5's note on
+this same failure mode; it's cheaper to catch there (before generation) but re-check here too,
+since it can still slip through a fast prompt-text read.
+
 **Listicle only:** also confirm the numbered item overlay shows the correct number at that
 timestamp, and check a frame from **inside an item**, not a transition. The overlay is the
 thing most likely to be off by one, and it is invisible in every other check.
@@ -238,10 +263,59 @@ thing most likely to be off by one, and it is invisible in every other check.
 
 ## Step 7 — Upload
 
-Only if explicitly asked. Confirm before running:
-- `youtube_tags` does not contain `shorts`
-- the description references the companion video where one exists
-- chapters came from section headings (narrative) or `items.json` (listicle), not hand-authored
+Only if explicitly asked, or the user says yes when asked at the end. This step performs real,
+side-effectful actions on the channel's YouTube account — treat it with the same care as any
+other "send/publish on someone's behalf" action, not as a routine pipeline stage.
 
-Uploads land as private drafts. YouTube's API rejects comments on private videos — publish or
-set unlisted first, or use `post_update.py`, which checks privacy before attempting.
+**Title is the one thing that needs a real decision; everything else is automatic.**
+`upload_youtube.py`'s `build_description()` generates the full description from existing
+project state — hook (first two sentences of `script.txt`), watch-next tease (from
+`config_override.json`'s flat `cta_watch_next_*` keys, if set), chapters (from `items.json`
+for a listicle, none yet for narrative), links, the subscribe line, tags, and the music credit
+— all `channel_dna`-driven. Set the real title via `manifest.json`'s `"title"` field before
+uploading (it defaults to the bare project name otherwise — an easy thing to forget), or pass
+`--title` at upload time. Confirm before running:
+- `manifest.json`'s `"title"` is a real, genus-level, common-name title — not the project name
+- `youtube_tags` (channel_dna) does not contain `shorts`
+- chapters will come from `items.json` (listicle) or don't exist yet (narrative) — never
+  hand-author them
+
+**OAuth is already set up, shared with Shorts** — `pipeline_config.json`'s `credentials_dir`
+points at `../shorts_pipeline2/`, where `client_secrets.json` and a cached
+`youtube_token.pickle` already live. Nothing to configure per-video.
+
+**Thumbnail (optional):** drop `thumbnail.png` (`.jpg`/`.jpeg` also work) into the project
+folder *before* uploading — `upload_youtube.py` auto-detects it and asks before attaching. No
+automated thumbnail generation exists; build one separately (e.g. the `aeonium-glow-brand`
+skill) or extract a frame.
+
+```powershell
+python upload_youtube.py --project {Project} --skip-comment
+```
+
+**Needs a real terminal, same trap as `generate_script.py`'s approval gate.** Without
+`--skip-comment`, it prompts interactively for the pinned comment (`Post this comment?
+[y/n/edit]`) and, if a thumbnail file was found, for whether to upload it. In a
+non-interactive/agent context, always pass `--skip-comment` and handle the comment as a
+separate, explicit step (below) — don't try to drive the interactive prompt.
+
+Lands as a **private draft**, uploads the SRT as a subtitle track, writes
+`youtube_video_id`/`youtube_video_url` back onto `manifest.json`.
+
+**Pinned comment must come *after* the video is public or unlisted, not before.** Confirmed
+directly (2026-08-11, real API call): YouTube returns `403 forbidden,
+"insufficient permissions"` when creating a comment thread on a still-private video. Generate
+the comment text any time via `build_pinned_comment()` (full ranked index with timestamps for
+a listicle) and show it to the user, but don't attempt to post it until after Step 7's manual
+publish step below — and posting it is its own distinct public action, so confirm with the
+user before posting even once the video is public.
+
+**No `post_update.py` in this pipeline** — that script exists only in `shorts_pipeline2/`
+(Shorts-only, never forked here). There is currently no long-form equivalent for posting a
+comment after the fact from the CLI; use `upload_youtube.py`'s own `build_pinned_comment()` +
+`post_pinned_comment()` functions directly (see `IMPLEMENTATION.md` §10), or post manually via
+Studio.
+
+**Manual, no API path:** publishing the draft to Public (Studio → confirm thumbnail/title →
+Public), and pinning a posted comment to the top (Studio → Comments → ⋮ → Pin to top — the API
+cannot do this step even once a comment exists).

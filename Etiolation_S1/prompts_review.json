@@ -19,12 +19,6 @@
       "override_prompt": ""
     },
     {
-      "scene_id": "group-02",
-      "script": "Rot looks like damage. Shriveling looks like damage. A sunburned leaf looks like damage. But a stretching succulent looks like a plant that is thriving, so it gets encouraged instead of corrected.",
-      "auto_prompt": "A 16:9 widescreen extreme close-up of Echeveria elegans (Mexican Snowball). Setting: home windowsill, intimate and personal. Soft natural window light illuminating a pale green rosette with elongated, widely spaced leaves, showing visible bare stem between them. The leaves are upright and inward-pointing, indicating a search for light, with a subtle lack of anthocyanin coloration, appearing almost plain green. Rich earthy tones of the terracotta pot beneath it and a wooden surface nearby. No text, no logos. Photorealistic.",
-      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium arboreum Zwartkop (dark purple Aeonium). Setting: home windowsill, warm golden-hour light. The plant looks lush and thriving at a glance, rosette slightly loosened, nothing obviously wrong yet. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
-    },
-    {
       "scene_id": "SCENE-012",
       "script": "And by the time the shape has visibly come apart, the damage is already permanent.",
       "auto_prompt": "A 16:9 widescreen close-up of a rosette of Sempervivum tectorum (Hens and Chicks) displaying a tightly packed arrangement of leaves around a central stem. The leaves are vibrant green, with the rosette sitting in a rustic terracotta pot on a sunlit shelf, showcasing the healthy compression of the structure. The lighting is warm, enhancing the earthy tones of the pot and the plant.",
@@ -275,6 +269,30 @@
       "script": "Your succulent was never just getting taller. It was looking for something. Give it that, and everything it grows from here will show it.",
       "auto_prompt": "A 16:9 widescreen close-up of Echeveria elegans (Mexican Snowball). Setting: a sunlit home windowsill with a terracotta pot. The plant shows elongated internodes with visible gaps between leaves, pale green color with no red edge coloring, and leaves tilting upward. Soft natural window light illuminates the scene, creating rich earthy tones. The background is softly blurred, emphasizing the stretched rosette. No human hands or faces are present. No text, no logos. Photorealistic.",
       "override_prompt": "16:9 widescreen. Warm cinematic macro photograph of Ceropegia woodii (String of Hearts, a succulent vine): small, thick, plump, fleshy heart-shaped leaves no bigger than a fingernail, jellybean-thick and succulent (not thin or papery), with faint silvery marbling on top, growing in sparse pairs spaced several inches apart along thin wiry reddish-purple trailing stems draped from a hanging terracotta pot toward a window. Soft natural window light, warm golden tones, rich earthy palette. Not Scindapsus pictus, not satin pothos, not philodendron -- leaves must read as small, thick, and succulent-fleshy, never large, thin, or papery. Sparse and wiry, not lush or leafy. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-008",
+      "script": "Rot looks like damage.",
+      "auto_prompt": "",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium arboreum 'Zwartkop' (dark purple Aeonium) suffering from rot: the lower leaves and stem base are dark, soft, and water-soaked, with a collapsed, mushy texture and visible blackened, decaying tissue at the base where it meets clearly overly wet soil. Clear, obvious plant damage. Setting: home windowsill, terracotta pot. Rich earthy tones. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-009",
+      "script": "Shriveling looks like damage.",
+      "auto_prompt": "",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium arboreum 'Zwartkop' (dark purple Aeonium) suffering from shriveling: the leaves are visibly wrinkled, thin, and deflated, with a puckered, dehydrated surface texture instead of the plump glossy leaves of a healthy plant -- clear, obvious plant damage from underwatering. Setting: home windowsill, terracotta pot. Rich earthy tones. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-010",
+      "script": "A sunburned leaf looks like damage.",
+      "auto_prompt": "",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium arboreum 'Zwartkop' (dark purple Aeonium) with a sunburned leaf: one or more leaves show a bleached, scorched, papery brown-white patch where the tissue has been damaged by harsh direct sun, clearly contrasting against the plant's normal deep purple color elsewhere -- clear, obvious plant damage. Setting: home windowsill in bright direct sunlight, terracotta pot. Rich earthy tones. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
+    },
+    {
+      "scene_id": "SCENE-011",
+      "script": "But a stretching succulent looks like a plant that is thriving, so it gets encouraged instead of corrected.",
+      "auto_prompt": "",
+      "override_prompt": "16:9 widescreen. Warm cinematic macro photography of Aeonium arboreum 'Zwartkop' (dark purple Aeonium). Setting: home windowsill, warm golden-hour light. The plant looks lush and thriving at a glance, rosette slightly loosened, nothing obviously wrong yet. Rich earthy tones, terracotta pot. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic."
     }
   ]
 }
