@@ -124,7 +124,19 @@ Show the user the **full script text** at the approval gate. Check yourself firs
 **Both formats:**
 - Does any claim exceed what the source doc's confidence markers allow?
 - Does it re-derive a companion video's material instead of pointing at it?
-- Does it end on a concrete next action, per the channel's standing rule?
+- **Does the ending have the required two-beat structure — closing insight, then a spoken
+  ask — not just the first beat?** This is a real, confirmed gap, not a hypothetical:
+  Etiolation_S1 shipped with only the closing-insight beat and no spoken ask at all, caught
+  only after upload by a human watching the finished video, which then required awkwardly
+  splicing a new TTS clip onto an already-produced project. Check explicitly, every time,
+  before voiceover ever runs: the last 1-2 sentences must include a spoken ask matching
+  `channel_dna`'s `cta.comment_prompt_pattern` (specific, self-categorizing, answerable with
+  one concrete detail from the viewer's own experience — never "let me know what you think").
+  `subscribe` is deliberately description-surface only and is never spoken; `watch_next` is
+  spoken too if `channel_dna`'s `cta.in_script_ask_beats` includes it and a real target
+  video exists to point at. The outro card itself stays visual/BGM-only per the channel's CTA
+  decision (see `CLAUDE.md`) — the ask belongs in the narration, in the last few seconds
+  before the card begins, not on the card.
 
 **Listicle only:**
 - Is the shared fix stated once near the top as an open loop, with the full version promised at #1?

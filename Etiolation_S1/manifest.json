@@ -2215,9 +2215,27 @@
       "duration": 3.317551,
       "video_start": 580.9046940000001,
       "video_end": 583.887694
+    },
+    {
+      "id": "SCENE-123",
+      "image": "images/SCENE-123.png",
+      "audio": "audio/SCENE-123.mp3",
+      "script": "Tell me in the comments which number on this list is already stretching on your windowsill.",
+      "scene_type": "grouped",
+      "visual_group_id": "group-25",
+      "whisperx_start": 627.42,
+      "whisperx_end": 633.06,
+      "audio_pre_padding": 0.15,
+      "audio_post_padding": 0.15,
+      "prompt": "16:9 widescreen. Warm cinematic macro photograph of Ceropegia woodii (String of Hearts, a succulent vine): small, thick, plump, fleshy heart-shaped leaves no bigger than a fingernail, jellybean-thick and succulent (not thin or papery), with faint silvery marbling on top, growing in sparse pairs spaced several inches apart along thin wiry reddish-purple trailing stems draped from a hanging terracotta pot toward a window. Soft natural window light, warm golden tones, rich earthy palette. Not Scindapsus pictus, not satin pothos, not philodendron -- leaves must read as small, thick, and succulent-fleshy, never large, thin, or papery. Sparse and wiry, not lush or leafy. No text, no logos. No blue or cool tones. Botanically accurate. Photorealistic.",
+      "start": 523.572245,
+      "end": 529.240816,
+      "duration": 5.668571,
+      "video_start": 583.887694,
+      "video_end": 590.362245
     }
   ],
-  "total_duration": 523.572245,
+  "total_duration": 529.240816,
   "youtube_video_id": "lBZ8oCvL53A",
   "youtube_video_url": "https://youtu.be/lBZ8oCvL53A"
 }

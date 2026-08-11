@@ -152,6 +152,34 @@ never set — the trap `CLAUDE.md` flags as "packaging still project-named").
 `manifest["youtube_video_id"]`/`["youtube_video_url"]` get written by `upload_youtube.py`
 after a successful upload.
 
+### Appending a scene after production, without disturbing anything already timed
+
+Sometimes a real gap surfaces only after a video is otherwise finished — Etiolation_S1
+shipped with no spoken CTA at all (script review missed it; now a required check, see the
+skill's Step 4). Re-running voiceover for the whole script would re-run WhisperX over
+everything and risk re-numbering or re-timing every existing scene, unraveling any per-scene
+image work already done. A single new scene can be appended safely instead, because of how
+`whisperx_start`/`whisperx_end` are actually used (§6a's `build_video_timeline()`/
+`remap_time()`): **they don't need to be real transcription output** — `remap_time()` only
+ever looks up a scene's *own* `whisperx_start` against the timeline to find *that scene's own*
+entry, so any value works as long as it doesn't fall inside another scene's `[whisperx_start,
+whisperx_end]` range. Procedure:
+
+1. TTS just the new line (`edge-tts --voice {channel_dna voice} --rate={voice_rate} --text
+   "..." --write-media out.mp3`), then re-encode to match existing scene audio format (44100Hz
+   stereo — check with `ffprobe`; edge-tts's native output doesn't necessarily match).
+2. Append a new scene dict to `manifest.json`'s `scenes` list (**at the end** — clip order
+   is list order, not numeric `whisperx_start` order). Set `whisperx_start` to the previous
+   last scene's `whisperx_end` (contiguous, guaranteed non-overlapping) and `whisperx_end` to
+   that plus the new clip's real duration. Leave `start`/`end`/`duration`/`video_start`/
+   `video_end` unset — `stamp_manifest.py` and `write_video_timeline()` compute those fresh on
+   the next stitch, for every scene, from each scene's real audio file.
+3. To reuse an existing image (no new generation needed): set `visual_group_id` to the shot
+   whose image should hold under the new line. `find_video_source()` resolves scene-id-first,
+   group-id-fallback, so a per-scene image file is optional — the new scene just falls through
+   to the shared group image, exactly like every other member of that group already does.
+4. Re-stitch normally. No `generate_images.py` run needed if step 3 applies.
+
 ---
 
 ## 5. The two formats, mechanically
@@ -169,8 +197,12 @@ out:
    grouping, a 10-item ~12-minute listicle measures ~9.5 images/minute — 110-120 images,
    which nobody reviews, silently defeating the `--dry-run-prompts` human checkpoint at
    exactly the format where the species-validator hazard (§6) matters most. Item-level
-   grouping cuts a real 10-item project to **46 shots** (10 item groups + 36 sentence-level
-   hook/explainer/outro shots around them) — reviewable, and dramatically cheaper.
+   grouping cuts a real 10-item project to **~46 shots at first pass** (10 item groups + 36
+   sentence-level hook/explainer/outro shots around them) — reviewable, and dramatically
+   cheaper. That count can grow slightly after a review pass splits an individual grouped
+   shot found to span genuinely different states (§9's narration/image mismatch pattern) —
+   Etiolation_S1 ended at 49 after one such split — but stays an order of magnitude below the
+   ungrouped figure either way.
 3. **One optional ffmpeg overlay** — `stitch_video_longform.py`'s
    `add_item_number_overlay()`, gated by `item_overlay_enabled` (off by default in
    `pipeline_config.json`, flipped on per-project via `config_override.json`). Burns

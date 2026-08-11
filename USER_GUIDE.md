@@ -140,9 +140,11 @@ python run_pipeline.py --project {Project} --start-from images --prompts-file "<
 onto the project dir and — used to — fell back to fresh, unreviewed auto-generated prompts.
 It now hard-fails instead, but quote it anyway.
 
-Budget: a real 10-item, ~10.5-minute listicle measures **~46 shots**, not the ~10–20 you
+Budget: a real 10-item, ~10.5-minute listicle measures **~46–50 shots**, not the ~10–20 you
 might expect from item count alone — the hook/explainer/outro sections around the countdown
-are grouped at sentence level and account for most of that.
+are grouped at sentence level and account for most of that. The exact count can grow a little
+past the initial auto-split if a review pass later splits a grouped shot apart (see C4/C7's
+narration-mismatch check below) — that's a correctness fix, not a budget overrun to avoid.
 
 ### C4. Verify images — pixels, not just prompt text
 
