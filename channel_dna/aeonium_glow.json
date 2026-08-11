@@ -38,6 +38,7 @@
   "youtube_default_language": "en",
   "youtube_made_for_kids": false,
   "youtube_pinned_comment": "💧 Does your succulent look like this? Drop a photo or description below — I read every comment! 🌱 Subscribe to @aeoniumglow for weekly science-backed plant care tips.",
+  "music_credit": "Royalty Free Music: Bensound.com\nLicense code: DEXONB9LQW8Y2ZJP",
 
   "_comment_subjects": "Expanded Phase 1.5, backed by succulent_demand_and_subjects.md (channel-strategy doc, not this repo). 21 distinct subjects -- aliases are a field on the canonical entry, never a duplicate row, so anything treating subjects as a set of distinct species (variety checks, coverage counts, per-scene selection) stays correct. names_species() matches on canonical name OR any alias, returning the canonical name either way.",
 
