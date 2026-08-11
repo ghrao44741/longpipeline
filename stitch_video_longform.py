@@ -625,11 +625,10 @@ def burn_srt_captions(video_path: str, srt_path: str, output_path: str, fontsize
     Uses bottom-third positioning (Alignment=2, MarginV=40) and a clean
     white font with black outline — appropriate for 1920×1080 landscape.
 
-    fontsize default of 36 is a Phase 1 placeholder for Aeonium Glow specifically (the
-    sibling pipeline's 28 was tuned for a different channel at the same 1920x1080 —
-    picking a new value isn't about resolution, it's about this channel's own look, not
-    yet established for long-form). Verify on an extracted frame and adjust via config's
-    "caption_fontsize" if needed — see BUILD_BRIEF.md §7.
+    fontsize default of 36 here is only the function's own fallback if config lookup
+    fails; the real value is channel_dna's "caption_fontsize" (28 as of 2026-08-11,
+    lowered from an initial 36 placeholder after review found the burned block too
+    dominant on a 10-minute video — see CLAUDE.md).
     """
     # ffmpeg needs forward slashes and escaped colons in Windows paths
     srt_ff = srt_path.replace("\\", "/").replace(":", "\\:")
