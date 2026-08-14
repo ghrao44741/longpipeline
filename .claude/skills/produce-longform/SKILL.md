@@ -245,6 +245,29 @@ writing one prompt that tries to average across all of them. Rhetorical-list nar
 ("X looks like damage. Y looks like damage. Z looks like damage. But W looks like success.")
 is the pattern most likely to trigger this — watch for it specifically.
 
+**Listicle item shots get this same bug, and the fix above is unsafe for them — do not remove
+`visual_group_id` on an item shot.** Confirmed on Etiolation_S1's item-02 (Lithops): its
+6-scene span opens with "A healthy Lithops sits almost flush with the gravel..." then pivots
+to "the body elongates upward... losing that stone profile... eventually toppling," but held
+one healthy-looking image across all of it — the exact same pattern, just inside a listicle
+item instead of generic B-roll. The difference: `build_item_overlay_windows()` computes the
+"#N Name" overlay's on-screen window by finding every scene that shares the *tagged* scene's
+`visual_group_id` — removing it from the later scenes to give them their own image would
+silently truncate the overlay early (it would end where the shrunken group now ends, not where
+the item's narration actually finishes). **Instead, leave every scene's `visual_group_id`
+untouched and place a per-scene image file directly** (e.g. `images/SCENE-095.png`) for just
+the scenes that need a different picture — `find_video_source()` in `stitch_video_longform.py`
+already checks for a scene-specific file *before* falling back to the shared group image, so
+this overrides the picture for those scenes without touching the grouping the overlay depends
+on. Because `generate_images.py`'s own shot-keying (`visual_group_id` or `scene_id`) can't be
+reached this way — a scene with a `visual_group_id` set always keys by that, never its own
+`scene_id`, so a `prompts_review.json` entry keyed by scene id is never picked up for it —
+generate the replacement image directly (`generate_with_xai()`/`save_image()` from
+`generate_images.py`, called standalone) rather than through the normal `--prompts-file` flow,
+and copy it to each affected scene's own filename if several consecutive scenes need to share
+the new state as one continuous shot. Verify afterward that the overlay window still spans the
+item's full original range, not just that the new image looks right.
+
 **Quote the paths.** A `--prompts-file` path with unquoted Windows backslashes has silently
 mangled itself in this project before. It now hard-fails rather than substituting fresh
 prompts, but quote them anyway.
