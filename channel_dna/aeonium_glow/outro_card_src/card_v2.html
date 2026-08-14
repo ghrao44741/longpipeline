@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; }
+
+  :root {
+    --bg:        #1C1C1A;
+    --surface:   #252523;
+    --border:    #2E2E2B;
+    --cream:     #F5EFE0;
+    --terracotta:#C4713A;
+    --sage:      #7A8C6E;
+  }
+
+  .card {
+    width: 1920px; height: 1080px;
+    position: relative;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--cream);
+    background: var(--bg);
+  }
+
+  .photo {
+    position: absolute; inset: 0;
+    background: url('bg_v2_aeonium.png') center / cover no-repeat;
+  }
+
+  .scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+      rgba(28,28,26,0.92) 0%,
+      rgba(28,28,26,0.72) 38%,
+      rgba(28,28,26,0.18) 62%,
+      rgba(28,28,26,0.0) 78%);
+  }
+
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.38) 100%);
+  }
+
+  .content { position: absolute; top: 0; left: 0; width: 1320px; height: 1080px; padding: 90px 100px; z-index: 2; }
+
+  .brand { display: flex; align-items: center; gap: 18px; margin-bottom: 110px; }
+  .brand .rosette {
+    width: 62px; height: 62px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #E8C9A0 0%, #C4713A 45%, #7A3B1E 100%);
+    border: 2px solid var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; color: var(--bg);
+  }
+  .brand .wordmark { font-size: 44px; font-weight: bold; letter-spacing: 0.5px; text-shadow: 0 2px 6px rgba(0,0,0,0.7); }
+  .brand .wordmark span { color: var(--terracotta); }
+  .brand .tagline { font-size: 20px; font-style: italic; color: var(--sage); margin-left: 4px; text-shadow: 0 2px 6px rgba(0,0,0,0.7); }
+
+  .ask { font-size: 84px; line-height: 1.12; font-weight: bold; max-width: 1180px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+  .ask .accent { color: var(--terracotta); }
+
+  .sub { margin-top: 40px; font-size: 34px; color: var(--cream); opacity: 0.92;
+         font-family: Arial, Helvetica, sans-serif; font-weight: 400; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
+
+  .watchnext {
+    margin-top: 90px;
+    display: inline-flex; align-items: center; gap: 22px;
+    background: rgba(37,37,35,0.88);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--terracotta);
+    border-radius: 8px;
+    padding: 26px 34px;
+  }
+  .watchnext .play { width: 52px; height: 52px; border-radius: 50%; background: var(--terracotta);
+                     display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .watchnext .play::after { content: ""; width: 0; height: 0;
+    border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+    border-left: 16px solid var(--bg); margin-left: 4px; }
+  .watchnext .label { font-size: 20px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage);
+                      font-family: Arial, Helvetica, sans-serif; font-weight: 600; }
+  .watchnext .title { font-size: 34px; font-weight: bold; color: var(--cream); }
+  .watchnext .title span { color: var(--terracotta); }
+
+  .footer {
+    position: absolute; bottom: 64px; left: 100px; z-index: 2;
+    font-family: Arial, Helvetica, sans-serif; font-weight: 600;
+    font-size: 26px; color: var(--cream); opacity: 0.9;
+    letter-spacing: 0.04em; text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+  }
+  .footer .at { color: var(--terracotta); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="photo"></div>
+  <div class="scrim"></div>
+  <div class="vignette"></div>
+
+  <div class="content">
+    <div class="brand">
+      <div class="rosette">A</div>
+      <div class="wordmark">aeonium<span>glow</span></div>
+      <div class="tagline">science-backed succulent care</div>
+    </div>
+
+    <div class="ask">
+      Which number is on<br><span class="accent">your</span> windowsill right now?
+    </div>
+    <div class="sub">Tell me in the comments — I read every one.</div>
+
+    <div class="watchnext">
+      <div class="play"></div>
+      <div>
+        <div class="label">Up next — same mistake, opposite direction</div>
+        <div class="title">Why Succulents Rot: <span>The First 5 Minutes Matter</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">@<span class="at">aeonium</span>glow</div>
+</div>
+</body>
+</html>

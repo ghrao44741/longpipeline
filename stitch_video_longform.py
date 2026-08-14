@@ -619,6 +619,66 @@ def mix_background_music(video_path: str, bgm_path: str,
 # CAPTION BURN (SRT — landscape-appropriate, bottom-third)
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def _srt_timestamp_to_seconds(ts: str) -> float:
+    h, m, rest = ts.split(":")
+    s, ms = rest.split(",")
+    return int(h) * 3600 + int(m) * 60 + int(s) + int(ms) / 1000.0
+
+
+def write_burn_srt(project_dir: str, scenes: list) -> str:
+    """
+    Writes {episode}_captions_burn.srt — a copy of the real SRT with any cue that falls
+    inside an outro_card_narration scene's window stripped out. The line is still spoken,
+    still in the real SRT (uploaded as the CC track, generate_srt.py's output is untouched),
+    just not burned — burning it collides with the outro card's own on-screen text (e.g.
+    "Watch next ->"), confirmed visually on Etiolation_S1 (2026-08-11). Only affects burning;
+    accessibility (the CC track) keeps the full transcript regardless.
+    """
+    manifest_path = os.path.join(project_dir, "manifest.json")
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        episode = json.load(f)["episode"]
+    episode = os.path.basename(episode.rstrip("/\\"))
+
+    exclude_windows = [
+        (s["video_start"], s["video_end"])
+        for s in scenes
+        if s.get("outro_card_narration") and s.get("video_start") is not None and s.get("video_end") is not None
+    ]
+
+    src_path = os.path.join(project_dir, "output", f"{episode}_captions.srt")
+    burn_path = os.path.join(project_dir, "output", f"{episode}_captions_burn.srt")
+    if not exclude_windows or not os.path.exists(src_path):
+        return src_path
+
+    with open(src_path, "r", encoding="utf-8") as f:
+        blocks = f.read().strip().split("\n\n")
+
+    kept = []
+    for block in blocks:
+        lines = block.splitlines()
+        if len(lines) < 2:
+            continue
+        time_line = lines[1]
+        start_str = time_line.split(" --> ")[0].strip()
+        start = _srt_timestamp_to_seconds(start_str)
+        if any(ws <= start <= we for ws, we in exclude_windows):
+            continue
+        kept.append(block)
+
+    # Renumber sequentially — a gap in indices is harmless for burning (ffmpeg's subtitles
+    # filter doesn't care), but keep it clean since this file is written to disk either way.
+    renumbered = []
+    for i, block in enumerate(kept, 1):
+        lines = block.splitlines()
+        lines[0] = str(i)
+        renumbered.append("\n".join(lines))
+
+    with open(burn_path, "w", encoding="utf-8") as f:
+        f.write("\n\n".join(renumbered) + "\n")
+
+    return burn_path
+
+
 def burn_srt_captions(video_path: str, srt_path: str, output_path: str, fontsize: int = 36,
                       bold: int = 0, outline: int = 1, margin_v: int = 72):
     """
@@ -697,8 +757,17 @@ def run_stitch(project_dir: str) -> str:
     for scene in scenes:
         scene_id       = scene["id"]
         aud_path       = os.path.join(project_dir, scene["audio"])
-        visual_group   = scene.get("visual_group_id")
-        source_path, source_type = find_video_source(project_dir, scene_id, visual_group)
+        is_outro_narration = bool(scene.get("outro_card_narration")) and bool(outro_image)
+
+        if is_outro_narration:
+            # This scene's spoken line plays UNDER the outro card itself, not before it —
+            # use the same held card art as the real outro card clip, and force_static
+            # (no Ken Burns) so it visually matches (see build_clip_from_image's
+            # force_static param, and the render loop below).
+            source_path, source_type = outro_image, "image"
+        else:
+            visual_group = scene.get("visual_group_id")
+            source_path, source_type = find_video_source(project_dir, scene_id, visual_group)
 
         if not os.path.exists(aud_path):
             missing_audio.append(aud_path)
@@ -708,6 +777,7 @@ def run_stitch(project_dir: str) -> str:
             "source_path": source_path,
             "source_type": source_type,
             "audio_path":  aud_path,
+            "force_static": is_outro_narration,
         })
 
         if   source_type == "video": video_count += 1
@@ -738,6 +808,11 @@ def run_stitch(project_dir: str) -> str:
     with tempfile.TemporaryDirectory() as tmp_dir:
         clip_paths     = []
         total_duration = 0.0
+        # Seconds of the card's own configured hold-time already spent on a narrated
+        # scene (outro_card_narration) — subtracted from the silent card clip below so
+        # the card's total on-screen time still matches outro_seconds, narration included
+        # rather than added on top of it (explicit decision, see CLAUDE.md/this session).
+        narrated_card_seconds = 0.0
 
         for i, plan in enumerate(scene_plan, 1):
             aud_duration    = get_audio_duration(plan["audio_path"])
@@ -755,18 +830,30 @@ def run_stitch(project_dir: str) -> str:
                     plan["id"], plan["source_path"],
                     plan["audio_path"], aud_duration, tmp_dir,
                     scene_index=i,
+                    force_static=plan.get("force_static", False),
                 )
 
             clip_paths.append(clip)
+            if plan.get("force_static"):
+                narrated_card_seconds += aud_duration + 0.5
             print(f"  ✓ rendered")
 
         # ── Outro card (cta.outro_card, DNA-gated — resolved earlier, see header) ──
         if outro_image:
-            print(f"\n[outro card] {outro_seconds}s held frame, BGM only, no narration")
-            outro_clip = build_outro_card_clip(outro_image, outro_seconds, tmp_dir)
-            clip_paths.append(outro_clip)
-            total_duration += outro_seconds
-            print(f"  ✓ rendered")
+            silent_seconds = max(outro_seconds - narrated_card_seconds, 0.0)
+            if narrated_card_seconds:
+                print(f"\n[outro card] {outro_seconds}s total hold — {narrated_card_seconds:.1f}s "
+                      f"already narrated above, {silent_seconds:.1f}s silent/BGM-only remaining")
+            else:
+                print(f"\n[outro card] {outro_seconds}s held frame, BGM only, no narration")
+            if silent_seconds > 0:
+                outro_clip = build_outro_card_clip(outro_image, silent_seconds, tmp_dir)
+                clip_paths.append(outro_clip)
+                total_duration += silent_seconds
+                print(f"  ✓ rendered")
+            # card_start (below) still gates the watermark using the full outro_seconds,
+            # not silent_seconds — the narrated portion IS the card visually and must stay
+            # unwatermarked too, same reasoning as the silent portion.
 
         # ── Concat + optional BGM + watermark ────────────────────────────────
         print(f"\n{'─' * 55}")
@@ -1021,9 +1108,14 @@ def main():
     captioned_out = os.path.join(output_dir, f"{episode}_captioned.mp4")
 
     if os.path.exists(srt_path):
-        print(f"Burning captions from {srt_path}...")
+        burn_srt_path = write_burn_srt(project_dir, manifest["scenes"])
+        if burn_srt_path != srt_path:
+            print(f"Burning captions from {burn_srt_path} "
+                  f"(outro-card-narration cue(s) excluded from burn only — still in {srt_path})...")
+        else:
+            print(f"Burning captions from {srt_path}...")
         config = load_config(os.path.dirname(os.path.abspath(__file__)), project_dir)
-        burn_srt_captions(final_video, srt_path, captioned_out,
+        burn_srt_captions(final_video, burn_srt_path, captioned_out,
                           fontsize=config.get("caption_fontsize", 36),
                           bold=config.get("caption_bold", 0),
                           outline=config.get("caption_outline", 1),

@@ -455,9 +455,12 @@ surface on its own.
   number each previous time.
 
   **Same bug confirmed in `shorts_pipeline2/local_mp4_analyzer.py:46` — flagged to the user,
-  deliberately not fixed** (one-sanctioned-edit-at-a-time rule for that shared, separate
-  production pipeline). If it's ever actioned there, this write-up is the reference for the
-  real root cause — don't let it get re-diagnosed as a generic pydub limit a second time.
+  deliberately not fixed at the time** (one-sanctioned-edit-at-a-time rule for that shared,
+  separate production pipeline). **Fixed 2026-08-13**: both `shorts_pipeline2/local_mp4_analyzer.py`
+  and the Aeonium Glow root `local_mp4_analyzer.py` now measure duration/levels via
+  ffprobe/ffmpeg and windowed reads, exactly like this file's `_window_dbfs()`. This write-up
+  remains the reference for the real root cause — don't let it get re-diagnosed as a generic
+  pydub limit a second time.
   `apad` is a `stitch_video_longform.py`-only fix; nothing in `shorts_pipeline2/` was touched.
 
   **Watermark gate had a related audio-space/video-space bug of its own, caught before the
@@ -511,15 +514,31 @@ surface on its own.
     for it, so none burn during it) — both correct by construction, verified by reading the code
     paths, not yet by a real render (no asset exists yet to render with).
 
-    **CTA decision, do not change without asking (2026-08-08):** the outro card stays
-    `cta.outro_card.audio = "bgm_only"` — no narration, no additional spoken or on-card text
-    beyond what's already baked into `outro_card.png`. The spoken ask belongs in the narration
-    script as beat 2 of the ending (see the in-script-ask bullet below), not on the card;
-    `subscribe` stays a description-surface item and is deliberately not spoken. If a future
-    fix or feature seems to need narration, audio, or new text on the outro card, that's a
-    signal to flag it to the user, not to add it — this is the same kind of unstated
-    assumption the `config_loader.py` nested-`cta` guard exists to protect against (below):
-    something a nearby edit could silently overwrite without anyone deciding it should.
+    **CTA decision, evolved 2026-08-14 (do not change without asking):** the outro card's
+    *visual* stays `cta.outro_card.audio = "bgm_only"` — the held card itself still carries
+    no narration of its own. BUT the spoken ask (the two-beat ending's beat 2) now plays
+    UNDER the card: a scene flagged `"outro_card_narration": true` in the manifest renders
+    the card art as its visual (`force_static`, no Ken Burns) with its narration audio, and
+    the silent card clip's hold is reduced by the narration length so the card's total
+    on-screen time still matches `cta.outro_card.seconds`. `stitch_video_longform.py`'s
+    `run_stitch()` handles the render; `write_burn_srt()` strips that scene's caption cue
+    from the burned-in SRT (it would collide with the card's own on-screen text) while the
+    CC-track `_captions.srt` keeps the full transcript. `subscribe` stays a
+    description-surface item and is deliberately not spoken. If a future fix or feature
+    seems to need more narration, audio, or new text on the outro card, that's a signal to
+    flag it to the user, not to add it — this is the same kind of unstated assumption the
+    `config_loader.py` nested-`cta` guard exists to protect against (below): something a
+    nearby edit could silently overwrite without anyone deciding it should.
+
+    **Trap — `outro_card_narration` scenes REQUIRE the outro card (2026-08-14):**
+    `run_stitch()`'s `is_outro_narration = bool(scene.get("outro_card_narration")) and
+    bool(outro_image)`. If the card is ever disabled in DNA (`cta.outro_card.enabled:
+    false`) or its asset goes missing, the fallback is normal scene sourcing — but narrated
+    scenes typically have no generated image (Etiolation_S1's SCENE-123 has no
+    `visual_group_id` and no image file; its manifest `prompt` is a placeholder note), so
+    the stitch fails with "missing sources". Fail-loud is the right shape; just know that
+    turning the card off breaks any project using narrated scenes, and `verify_output.py`
+    mirrors the subtraction in both its duration and BGM checks (see `narrated_card_seconds`).
   - **`build_description()`, `build_chapters()`, `build_pinned_comment()`** — `upload_youtube.py`
     was an unmodified Shorts copy before this (hardcoded `#shorts`, no chapters, no watch-next).
     Rewritten per `cta_plan.md`'s surface map: hook + watch-next above the fold, then chapters
@@ -536,7 +555,7 @@ surface on its own.
     species-rewrite, `build_prompt_map`'s missing `auto_prompt` fallback) — this one was caught
     before it ever produced a real bug, by building the guard proactively instead of after.
   - **In-script ask** — added as beat 2 of a two-beat ending (closing insight, then the ask) to
-    the vault's `pipeline_script_prompt_template.md`, and wired the same pattern into
+    the vault's `Workflows/pipeline_script_prompt_template.md`, and wired the same pattern into
     `generate_script.py`'s own prompt (which now reads the ask from `cta.comment_prompt_pattern`
     — a description of HOW to write a comment prompt, not a literal string). The old top-level
     `script_ending` ("Your plant will thank you.") is removed from `channel_dna` and now lives as
@@ -564,7 +583,7 @@ surface on its own.
   since it was written, but nothing enforced it — and "script" is also that flag's own DEFAULT,
   so simply omitting `--start-from` silently ran the Shorts generator against a long-form
   project (a trap, not dead code). `run_pipeline.py`'s `main()` now exits immediately with a
-  message pointing at the real supported path (`pipeline_script_prompt_template.md` +
+  message pointing at the real supported path (`Workflows/pipeline_script_prompt_template.md` +
   `--start-from voiceover`) whenever `args.start_from == "script"` — cheaper and safer than
   adapting the generator, per explicit decision. The underlying file itself (`generate_script.py`)
   is still untouched and still Shorts-shaped; this guard makes that fact impossible to hit by
@@ -820,3 +839,23 @@ surface on its own.
 
   Not started — Etiolation_S1's images are already contact-sheet-verified by hand for this run,
   so this is prospective, not blocking anything currently in flight.
+
+- **Parameterize the outro-card HTML so the watch-next line isn't baked into the PNG
+  (2026-08-14, from the CTA-card v2 design session).** The card source now lives at
+  `channel_dna/aeonium_glow/outro_card_src/` (HTML + AIBMM Aeonium background + final PNG,
+  regenerable via headless Chrome: `chrome --headless=new --screenshot=... --window-size=1920,1080`).
+  Today the watch-next title ("Why Succulents Rot: The First 5 Minutes Matter") is hardcoded in
+  the HTML, so every new video with a different watch-next target needs a manual card regen.
+  Ideal: a tiny generator (CLI or script) that takes the watch-next title + optional comment
+  prompt and renders the card with the right copy, so video two's card is a 10-second job and
+  the asset never drifts from the CTA plan. Low priority — not blocking anything; the HTML is
+  saved and a regen is already quick. AIBMM session for the background:
+  `64a9063e-b3b5-4267-a9ae-350789064773` (GPT Image 2, adhoc-1786728498101.png).
+
+- **Batch generation (2026-08-14, user idea).** Apply batch-generation patterns to more of the
+  pipeline, not just images: e.g. batch-render/regen image fixes for a project (review-fix
+  regens today are per-image one-off prompts), batch voiceover re-runs, batch SRT re-burns, or
+  batch card/CTA regens across episodes. Etiolation_S1's review-fix images were handled
+  per-image; a small script that replays a list of (scene_id, prompt) fixes through
+  `generate_images.py`'s provider chain would make the next review round faster and more
+  repeatable. Low priority — idea only, nothing in flight.

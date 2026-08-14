@@ -350,7 +350,7 @@ def main():
         print()
         print("   Write script.txt by hand instead, using:")
         print("     C:\\Users\\Girir\\Documents\\Giri Knowledge Base\\02-PROJECTS\\YouTube\\"
-              "Succulents\\Aeonium Glow\\pipeline_script_prompt_template.md")
+              "Succulents\\Aeonium Glow\\Workflows\\pipeline_script_prompt_template.md")
         print()
         print("   Then save it to {project}\\script.txt and run:")
         print(f"     python run_pipeline.py --project {args.project} --start-from voiceover --skip-upload")

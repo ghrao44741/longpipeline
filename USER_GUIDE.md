@@ -52,7 +52,7 @@ not scope creep to wave through.
    worse. If there isn't one, the topic probably won't carry a video. Pick another.
 4. **Confirm a domain source document exists** for this axis (one soil/drainage doc backs
    several soil videos — check before writing a new one). If not, build one from
-   `domain_source_doc_template.md` and **verify the confidence markers yourself** — an LLM
+   `Workflows/domain_source_doc_template.md` and **verify the confidence markers yourself** — an LLM
    grading its own claims is grading its own homework.
 5. **Check every species the doc names against `channel_dna/aeonium_glow.json`'s
    `subjects` list.** Anything missing gets silently swapped by the validator later. Fix
@@ -79,7 +79,7 @@ Ranking rule for any listicle on this channel:
 A plant that fails instantly but that almost nobody owns ranks *below* one that fails
 slowly in ten thousand homes.
 
-Once the structure is approved, the script gets written (`pipeline_script_prompt_template.md`
+Once the structure is approved, the script gets written (`Workflows/pipeline_script_prompt_template.md`
 + the domain doc). **HARD STOP 2 — the full script text**, not a summary:
 - Does any claim exceed what the source doc's confidence markers allow?
 - Does it re-derive a companion video's biology instead of pointing at it?

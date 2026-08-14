@@ -27,7 +27,7 @@
   "watermark_text": "@aeoniumglow",
   "watermark_color": "#F5EFE0",
   "watermark_fontsize": 75,
-  "watermark_position": "bottom-right",
+  "watermark_position": "bottom-left",
 
   "caption_fontsize": 22,
   "caption_bold": 0,

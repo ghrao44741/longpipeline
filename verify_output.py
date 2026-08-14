@@ -9,9 +9,9 @@ inaudible for every long-form video before 2026-08-07). This makes those checks
 measurable and repeatable instead of a judgment call each time.
 
 Reuses shorts_pipeline2/local_mp4_analyzer.py's approach (loudness timeline via
-pydub, transcription via openai-whisper) as a technique, not as a dependency —
-that file exists for a different job (NotebookLM logo-card detection, chapter
-suggestion) and is a Shorts file; nothing here imports it or edits it.
+ffprobe/ffmpeg windowed reads, transcription via openai-whisper) as a technique, not
+as a dependency — that file exists for a different job (NotebookLM logo-card
+detection, chapter suggestion) and is a Shorts file; nothing here imports it or edits it.
 
 Checks (each reports PASS/FAIL with the measured value; non-zero exit on any FAIL
 except (b2) and (g), which are advisory/best-effort and always report rather than fail):
@@ -217,20 +217,34 @@ def check_bgm_audibility(project_dir: str, video_path: str, config: dict, script
         samples.append(_window_dbfs(video_path, window_start, window_duration))
 
     # The outro card, when enabled, is the cleanest possible BGM sample that will ever
-    # exist — its whole duration is narration-free by construction (build_outro_card_clip()
-    # renders it with a silent audio track; only the later BGM mix pass puts anything
-    # audible there at all), unlike a clip tail's ~0.4s window sandwiched between real
-    # narration. Sample nearly the whole span (small margins to avoid the mix's own
-    # fade-in/edges) as a high-confidence data point alongside the per-clip-tail samples.
+    # exist — for a card WITHOUT outro_card_narration scenes, its whole duration is
+    # narration-free by construction (build_outro_card_clip() renders it with a silent
+    # audio track; only the later BGM mix pass puts anything audible there at all), unlike
+    # a clip tail's ~0.4s window sandwiched between real narration. For a card WITH a
+    # narrated scene (spoken CTA under the card, see run_stitch()'s outro_card_narration
+    # handling), only the portion AFTER the narration is still pure BGM — that's why the
+    # sampling window below starts at total - silent_card_seconds, not total - outro_seconds.
+    # Sample nearly the whole span (small margins to avoid the mix's own fade-in/edges) as
+    # a high-confidence data point alongside the per-clip-tail samples.
     # total_duration comes from ffprobe (audio_duration(), already proven accurate
     # throughout this file), never from a full-file pydub load -- see _window_dbfs()'s
     # docstring for why that specifically cannot be trusted at this file's length.
     outro_sample_dbfs = None
     _, outro_seconds = resolve_outro_card(scripts_dir, config)
     if outro_seconds:
+        # A scene flagged outro_card_narration plays UNDER the head of the card's hold
+        # (see stitch_video_longform.py's run_stitch()) -- only the portion AFTER that is
+        # still genuinely narration-free by construction. Sampling the narrated head here
+        # would silently mix real speech into what this check treats as a pure-BGM sample.
+        narrated_card_seconds = sum(
+            audio_duration(os.path.join(project_dir, s["audio"])) + CLIP_EXTRA
+            for s in scenes if s.get("outro_card_narration")
+            and os.path.exists(os.path.join(project_dir, s["audio"]))
+        )
+        silent_card_seconds = max(outro_seconds - narrated_card_seconds, 0.0)
         total_duration = audio_duration(video_path)
         margin = 0.5
-        outro_start = max(0.0, total_duration - outro_seconds + margin)
+        outro_start = max(0.0, total_duration - silent_card_seconds + margin)
         outro_window_duration = total_duration - margin - outro_start
         if outro_window_duration > 0:
             outro_sample_dbfs = _window_dbfs(video_path, outro_start, outro_window_duration)
@@ -566,29 +580,38 @@ def check_duration_vs_manifest(project_dir: str, video_path: str, config: dict, 
         scenes = json.load(f)["scenes"]
 
     expected = 0.0
+    narrated_card_seconds = 0.0
     missing_audio = []
     for scene in scenes:
         aud_path = os.path.join(project_dir, scene["audio"])
         if not os.path.exists(aud_path):
             missing_audio.append(scene["id"])
             continue
-        expected += audio_duration(aud_path) + CLIP_EXTRA
+        clip_seconds = audio_duration(aud_path) + CLIP_EXTRA
+        expected += clip_seconds
+        if scene.get("outro_card_narration"):
+            narrated_card_seconds += clip_seconds
 
     if missing_audio:
         return {"name": "Duration vs manifest", "passed": False,
                 "detail": f"{len(missing_audio)} scene(s) missing audio files, "
                           f"cannot compute expected duration: {missing_audio[:5]}"}
 
+    # A scene flagged outro_card_narration plays UNDER the outro card itself (see
+    # stitch_video_longform.py's run_stitch()) -- its clip is already counted above, so
+    # only the REMAINING silent portion of outro_seconds gets appended as a separate clip.
+    # Adding the full outro_seconds here too would double-count the narrated portion.
     _, outro_seconds = resolve_outro_card(scripts_dir, config)
     if outro_seconds:
-        expected += outro_seconds
+        expected += max(outro_seconds - narrated_card_seconds, 0.0)
 
     actual = audio_duration(video_path)
     diff = actual - expected
     tolerance = max(1.5, per_clip_tolerance * len(scenes))
     passed = abs(diff) <= tolerance
+    net_outro = max(outro_seconds - narrated_card_seconds, 0.0) if outro_seconds else None
     detail = (f"expected={expected:.2f}s (sum of {len(scenes)} clip durations"
-              + (f" + {outro_seconds}s outro card" if outro_seconds else "") + "), "
+              + (f" + {net_outro:g}s outro card" if net_outro is not None else "") + "), "
               f"actual={actual:.2f}s, diff={diff:+.2f}s (tolerance ±{tolerance:.2f}s, "
               f"scaled for {len(scenes)} clips' frame-quantization)")
     return {"name": "Duration vs manifest", "passed": passed, "detail": detail}
@@ -598,7 +621,8 @@ def check_duration_vs_manifest(project_dir: str, video_path: str, config: dict, 
 # (e) BLACK / FREEZE FRAMES
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def check_black_freeze(project_dir: str, video_path: str, near_total_ratio: float = 0.85) -> dict:
+def check_black_freeze(project_dir: str, video_path: str, config: dict, scripts_dir: str,
+                       near_total_ratio: float = 0.85) -> dict:
     """
     freezedetect is a poor raw signal for this content: every clip is a deliberately
     subtle Ken Burns pan/zoom (~4% over several seconds, "barely perceptible" by
@@ -616,6 +640,12 @@ def check_black_freeze(project_dir: str, video_path: str, near_total_ratio: floa
     freeze is only reported as a real problem if it covers more than
     near_total_ratio of the clip it falls in — i.e. the clip is ~entirely static,
     which no amount of subtle Ken Burns motion should ever produce.
+
+    One exception (2026-08-14): the outro card. A scene flagged outro_card_narration renders
+    with force_static (no Ken Burns — see run_stitch()), and the silent outro card clip is a
+    held frame by construction. Both are 100% static ON PURPOSE, so a freeze spanning the whole
+    span there is the design, not a stuck frame. Those regions are excluded from the
+    real-problem classification and counted as "attributed to static outro card" instead.
     """
     manifest_path = os.path.join(project_dir, "manifest.json")
     with open(manifest_path, "r", encoding="utf-8") as f:
@@ -624,6 +654,18 @@ def check_black_freeze(project_dir: str, video_path: str, near_total_ratio: floa
         (s["video_start"], s["video_end"] + CLIP_EXTRA, s["id"])
         for s in scenes if s.get("video_start") is not None and s.get("video_end") is not None
     ]
+
+    # Static-by-design regions: outro_card_narration scenes (force_static) plus the silent
+    # outro card clip (held frame). Freezes inside these are expected, not bugs.
+    static_ranges = [
+        (s["video_start"], s["video_end"] + CLIP_EXTRA, s["id"])
+        for s in scenes if s.get("outro_card_narration")
+        and s.get("video_start") is not None and s.get("video_end") is not None
+    ]
+    _, outro_seconds = resolve_outro_card(scripts_dir, config)
+    if outro_seconds:
+        total_duration = audio_duration(video_path)
+        static_ranges.append((max(0.0, total_duration - outro_seconds), total_duration, "outro_card"))
 
     cmd = [
         "ffmpeg", "-i", video_path,
@@ -641,8 +683,16 @@ def check_black_freeze(project_dir: str, video_path: str, near_total_ratio: floa
 
     real_problems = []
     benign_count = 0
+    static_count = 0
     for start_s, dur_s, end_s in freeze_hits:
         start, dur = float(start_s), float(dur_s)
+        static = next((r for r in static_ranges if r[0] <= start < r[1]), None)
+        if static is not None:
+            # Static-by-design (outro narration scene or the card hold) — the freeze IS the
+            # design, not a stuck frame. Count separately so the report explains why it's not
+            # a problem instead of lumping it into the Ken Burns bucket.
+            static_count += 1
+            continue
         containing = next((r for r in clip_ranges if r[0] <= start < r[1]), None)
         if containing is None:
             real_problems.append(f"freeze at {start:.1f}s ({dur:.1f}s) -- no containing clip found")
@@ -661,7 +711,8 @@ def check_black_freeze(project_dir: str, video_path: str, near_total_ratio: floa
 
     detail = (f"{len(black_hits)} black segment(s), {len(freeze_hits)} freeze segment(s) detected "
               f"({benign_count} attributed to normal slow Ken Burns motion, <{near_total_ratio:.0%} "
-              f"of their clip; {len(real_problems) - len(black_hits)} span >{near_total_ratio:.0%} "
+              f"of their clip; {static_count} attributed to static outro card / narrated card scene; "
+              f"{len(real_problems) - len(black_hits)} span >{near_total_ratio:.0%} "
               f"of their clip and are treated as real)")
     if real_problems:
         detail += " -- " + "; ".join(real_problems[:8])
@@ -843,7 +894,7 @@ def main():
     results.append(check_duration_vs_manifest(project_dir, video_path, config, scripts_dir))
 
     print("[e] Black/freeze frames...")
-    results.append(check_black_freeze(project_dir, video_path))
+    results.append(check_black_freeze(project_dir, video_path, config, scripts_dir))
 
     print("[f] Loudness...")
     results.append(check_loudness(video_path))

@@ -37,12 +37,12 @@ something rather than from nothing.
 worse. **If there isn't one, the topic probably won't carry a video** — stop here and pick
 another.
 
-**A4. Does a domain source doc exist for this axis?** Check `domain_source_doc_template.md` §1.
+**A4. Does a domain source doc exist for this axis?** Check `Workflows/domain_source_doc_template.md` §1.
 Domain docs are per *axis*, not per video.
 - Yes → go to A6.
 - No → A5.
 
-**A5. Build the domain source doc.** Follow `domain_source_doc_template.md`. **Verify the
+**A5. Build the domain source doc.** Follow `Workflows/domain_source_doc_template.md`. **Verify the
 confidence markers yourself** — an LLM assigning its own markers is grading its own homework.
 At minimum, verify every claim the video's thesis depends on. Update the template's §1 table.
 
@@ -56,7 +56,7 @@ the list, or the validator silently swaps it for one that is. Expand the DNA fir
 **B1. Choose the format.** Narrative (hook → sections → close) or listicle (ranked countdown).
 A count in the title means listicle.
 
-**B2. Generate the script.** Use `pipeline_script_prompt_template.md` with the domain doc
+**B2. Generate the script.** Use `Workflows/pipeline_script_prompt_template.md` with the domain doc
 attached. Output is narration text only — no headings, no visual direction, no metadata.
 
 **B3. Review the script.**
