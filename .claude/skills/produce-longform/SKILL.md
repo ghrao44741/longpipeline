@@ -134,9 +134,14 @@ Show the user the **full script text** at the approval gate. Check yourself firs
   one concrete detail from the viewer's own experience — never "let me know what you think").
   `subscribe` is deliberately description-surface only and is never spoken; `watch_next` is
   spoken too if `channel_dna`'s `cta.in_script_ask_beats` includes it and a real target
-  video exists to point at. The outro card itself stays visual/BGM-only per the channel's CTA
-  decision (see `CLAUDE.md`) — the ask belongs in the narration, in the last few seconds
-  before the card begins, not on the card.
+  video exists to point at. **The ask plays UNDER the outro card itself, not before it** —
+  a scene flagged `"outro_card_narration": true` in the manifest renders the card art as its
+  visual (`force_static`, no Ken Burns) with the narration audio, and the silent card's hold
+  shortens by that much so the card's total on-screen time still matches
+  `cta.outro_card.seconds` (`stitch_video_longform.py`'s `run_stitch()`;
+  `write_burn_srt()` keeps this scene's line out of the *burned* captions, since it collides
+  with the card's own on-screen text, while the CC-track SRT keeps the full transcript). This
+  is a settled, evolved decision (`CLAUDE.md`, 2026-08-14) — do not change it without asking.
 
 **Listicle only:**
 - Is the shared fix stated once near the top as an open loop, with the full version promised at #1?
@@ -292,6 +297,22 @@ uploading (it defaults to the bare project name otherwise — an easy thing to f
 - chapters will come from `items.json` (listicle) or don't exist yet (narrative) — never
   hand-author them
 
+**Check the outro card's watch-next line before every upload — it is a single shared channel
+asset, not per-project.** `resolve_outro_card()` always resolves
+`channel_dna/aeonium_glow/outro_card.png` (no per-project override exists for this asset,
+unlike `bgm_file`) — whatever it currently says is what every video shares until someone
+regenerates it. If this video's `cta_watch_next_title` differs from what the card currently
+shows, regenerate it and then copy it into place — **its own `--out` default writes inside
+`outro_card_src/`, one level below the real live asset, not the live asset itself**:
+```powershell
+python channel_dna/aeonium_glow/outro_card_src/render_outro_card.py --watch-next-title "..."
+copy channel_dna\aeonium_glow\outro_card_src\outro_card.png channel_dna\aeonium_glow\outro_card.png
+```
+That overwrites the live shared asset — the *previous* video's card is gone the moment a new
+one is copied in. If two videos need to stay live with different cards simultaneously, render
+to a distinct filename and point `cta.outro_card.asset` at it instead of copying over the
+default; that's not the common case today.
+
 **OAuth is already set up, shared with Shorts** — `pipeline_config.json`'s `credentials_dir`
 points at `../shorts_pipeline2/`, where `client_secrets.json` and a cached
 `youtube_token.pickle` already live. Nothing to configure per-video.
@@ -322,11 +343,23 @@ a listicle) and show it to the user, but don't attempt to post it until after St
 publish step below — and posting it is its own distinct public action, so confirm with the
 user before posting even once the video is public.
 
-**No `post_update.py` in this pipeline** — that script exists only in `shorts_pipeline2/`
-(Shorts-only, never forked here). There is currently no long-form equivalent for posting a
-comment after the fact from the CLI; use `upload_youtube.py`'s own `build_pinned_comment()` +
-`post_pinned_comment()` functions directly (see `IMPLEMENTATION.md` §10), or post manually via
-Studio.
+**After publishing, use `post_update.py` to sync status and post the pinned comment —
+added 2026-08-14, this pipeline now has its own copy (ported from
+`shorts_pipeline2/post_update.py`, not the same file, this one builds its comment text from
+this pipeline's own `build_pinned_comment()`):**
+
+```powershell
+python post_update.py --project {Project}
+```
+
+Run any time after upload. It always syncs live status (privacy, title, published date) into
+`manifest.json`; it only *posts* the pinned comment once the video is actually public or
+unlisted — checks the real live privacy status itself before attempting, so running it
+against a still-private draft is safe and just syncs status, prints why it skipped posting,
+and exits cleanly rather than repeating the 403 `upload_youtube.py --skip-comment` trap.
+Skips re-posting if `manifest.json` already has a `youtube_pinned_comment_id` (use
+`--force-comment` to post again anyway); `--text`/`--text-file` override the pipeline-built
+comment; `--no-comment` syncs status only, never posts.
 
 **Manual, no API path:** publishing the draft to Public (Studio → confirm thumbnail/title →
 Public), and pinning a posted comment to the top (Studio → Comments → ⋮ → Pin to top — the API
