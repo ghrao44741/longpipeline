@@ -24,6 +24,10 @@
 *.bak
 *.bak_*
 
+# Pre-review-fix image backups (2026-08) — 25MB of superseded generated images,
+# same class as */images/* above; keep on disk, not in git.
+*/images_backup_pre_review_fixes/*
+
 # One-off manual verification frame extractions from debugging sessions (ffmpeg -frames:v 1
 # checks), left at repo root — not source, not a tracked asset, purely transient.
 _check_frame*.png
