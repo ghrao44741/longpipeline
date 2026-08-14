@@ -841,16 +841,21 @@ surface on its own.
   so this is prospective, not blocking anything currently in flight.
 
 - **Parameterize the outro-card HTML so the watch-next line isn't baked into the PNG
-  (2026-08-14, from the CTA-card v2 design session).** The card source now lives at
-  `channel_dna/aeonium_glow/outro_card_src/` (HTML + AIBMM Aeonium background + final PNG,
-  regenerable via headless Chrome: `chrome --headless=new --screenshot=... --window-size=1920,1080`).
-  Today the watch-next title ("Why Succulents Rot: The First 5 Minutes Matter") is hardcoded in
-  the HTML, so every new video with a different watch-next target needs a manual card regen.
-  Ideal: a tiny generator (CLI or script) that takes the watch-next title + optional comment
-  prompt and renders the card with the right copy, so video two's card is a 10-second job and
-  the asset never drifts from the CTA plan. Low priority — not blocking anything; the HTML is
-  saved and a regen is already quick. AIBMM session for the background:
+  (2026-08-14, from the CTA-card v2 design session) — DONE 2026-08-14.** The card source
+  lives at `channel_dna/aeonium_glow/outro_card_src/` (HTML template + AIBMM Aeonium
+  background + renderer). `render_outro_card.py` now takes `--watch-next-title` (+ optional
+  ask/sub/label overrides) and renders a 1920×1080 PNG via headless Chrome — the watch-next
+  line is no longer hand-edited per video; video two's card is a one-command job. The v3
+  card (Etiolation_S1) was built with it. AIBMM session for the background:
   `64a9063e-b3b5-4267-a9ae-350789064773` (GPT Image 2, adhoc-1786728498101.png).
+
+- **Long-form post-update routine (2026-08-14, flagged at Etiolation_S1 upload).** Shorts has
+  `post_update.py`; long-form has nothing. After a long-form video goes public the pinned
+  comment cannot be set at upload time (YouTube rejects pinning on private drafts — confirmed
+  2026-08-14), so it must be posted post-publish. Build a small script (or extend
+  `upload_youtube.py`) that takes a public video ID + the pipeline-built pinned comment
+  (see `build_pinned_comment()`) and pins it. Manual for now: copy the text from the upload
+  log and pin in Studio. Low priority — only needed at publish time.
 
 - **Batch generation (2026-08-14, user idea).** Apply batch-generation patterns to more of the
   pipeline, not just images: e.g. batch-render/regen image fixes for a project (review-fix
