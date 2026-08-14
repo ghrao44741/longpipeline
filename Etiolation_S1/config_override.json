@@ -1,4 +1,7 @@
 {
   "_comment": "Project-level config override -- shallow-merged on top of pipeline_config.json + channel_dna by config_loader.load_config(scripts_dir, project_dir). Etiolation_S1 is a listicle; item_overlay_enabled defaults to false (narrative) in pipeline_config.json, so this project flips it on here rather than changing the shared default. See stitch_video_longform.py's build_item_overlay_windows()/add_item_number_overlay() and CLAUDE.md's BACKLOG entry on config_loader's project-override layer.",
-  "item_overlay_enabled": true
+  "item_overlay_enabled": true,
+  "cta_watch_next_title": "Stop Succulent Rotting Fast: The First 5 Minutes Matter",
+  "cta_watch_next_id": "Zx4nw7Xuigg",
+  "cta_watch_next_why": "same mistake, opposite direction"
 }
