@@ -322,15 +322,22 @@ uploading (it defaults to the bare project name otherwise — an easy thing to f
 
 **Check the outro card's watch-next line before every upload — it is a single shared channel
 asset, not per-project.** `resolve_outro_card()` always resolves
-`channel_dna/aeonium_glow/outro_card.png` (no per-project override exists for this asset,
+`<channel_dna>/aeonium_glow/outro_card.png` (no per-project override exists for this asset,
 unlike `bgm_file`) — whatever it currently says is what every video shares until someone
 regenerates it. If this video's `cta_watch_next_title` differs from what the card currently
 shows, regenerate it and then copy it into place — **its own `--out` default writes inside
 `outro_card_src/`, one level below the real live asset, not the live asset itself**:
 ```powershell
-python channel_dna/aeonium_glow/outro_card_src/render_outro_card.py --watch-next-title "..."
-copy channel_dna\aeonium_glow\outro_card_src\outro_card.png channel_dna\aeonium_glow\outro_card.png
+$dna = "C:\Bakcup_Asus\shared-tools\channel_dna"
+python "$dna\aeonium_glow\outro_card_src\render_outro_card.py" --watch-next-title "..."
+copy "$dna\aeonium_glow\outro_card_src\outro_card.png" "$dna\aeonium_glow\outro_card.png"
 ```
+**`channel_dna` moved out of this repo on 2026-08-14** to `C:\Bakcup_Asus\shared-tools\channel_dna\`
+— the `Merge_videos` composer became a second consumer of the same DNA and the same `bgm.mp3` /
+`outro_card.png`, so it now sits where neither project owns it (the same move, and the same parent
+folder, as the WhisperX venv). `pipeline_config.json`'s `channel_dna_file` points there; nothing
+else in the pipeline changed, because `channel_assets_dir()` derives the assets folder from that
+one pointer.
 That overwrites the live shared asset — the *previous* video's card is gone the moment a new
 one is copied in. If two videos need to stay live with different cards simultaneously, render
 to a distinct filename and point `cta.outro_card.asset` at it instead of copying over the

@@ -9,9 +9,20 @@ run_pipeline.py).
 Two files, two concerns:
   pipeline_config.json        HOW THE MACHINE RUNS (subject-agnostic) — aspect
                                ratio, provider order, scene timing, venv paths.
-  channel_dna/<name>.json     WHAT THE CHANNEL IS (subject-specific, brand) —
+  <channel_dna>/<name>.json   WHAT THE CHANNEL IS (subject-specific, brand) —
                                voice, script style, visual style, watermark,
                                YouTube metadata, the approved subject list.
+
+WHERE THE DNA LIVES (moved 2026-08-14). It is no longer inside this repo — it
+sits at C:\\Bakcup_Asus\\shared-tools\\channel_dna\\, beside the shared WhisperX
+venv, because the Merge_videos composer became a second consumer of the same
+DNA and the same assets (bgm.mp3, outro_card.png). Whichever project held them,
+the other had to reach across into its folder, and two copies would drift.
+pipeline_config.json's "channel_dna_file" is a RELATIVE pointer
+("../../shared-tools/channel_dna/aeonium_glow.json") so the whole C:\\Bakcup_Asus
+tree stays relocatable. That pointer was the ONLY change the move required —
+_resolve_dna_path() already honoured absolute paths and joined relative ones
+against scripts_dir, and channel_assets_dir() derives the assets folder from it.
 
 load_config() reads pipeline_config.json, resolves its "channel_dna_file"
 pointer, and shallow-merges the DNA dict over it (DNA wins on key collision).
@@ -20,8 +31,8 @@ in the forked scripts is unchanged; only where the value now comes from is
 different.
 
 Channel-scoped assets (bgm.mp3, and later a watermark logo, intro/outro
-stings, custom fonts) live in channel_dna/<name>/, adjacent to
-channel_dna/<name>.json — see channel_assets_dir() below. DNA keys naming an
+stings, custom fonts) live in <channel_dna>/<name>/, adjacent to
+<channel_dna>/<name>.json — see channel_assets_dir() below. DNA keys naming an
 asset (e.g. "bgm_file") hold a bare filename resolved against that directory,
 not a config key of their own.
 """
@@ -99,9 +110,9 @@ def load_config(scripts_dir: str, project_dir: str = None) -> dict:
 
 def channel_assets_dir(scripts_dir: str, config: dict) -> str:
     """
-    Directory holding this channel's asset files: channel_dna/<name>.json's
-    assets live in channel_dna/<name>/ (e.g. channel_dna/aeonium_glow.json ->
-    channel_dna/aeonium_glow/). Returns "" if config has no channel_dna_file
+    Directory holding this channel's asset files: <name>.json's assets live in
+    <name>/ beside it (e.g. .../channel_dna/aeonium_glow.json ->
+    .../channel_dna/aeonium_glow/). Returns "" if config has no channel_dna_file
     to derive it from — callers should treat that as "no assets dir available",
     not as an error in itself.
     """

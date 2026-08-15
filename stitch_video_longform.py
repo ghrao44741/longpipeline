@@ -162,7 +162,7 @@ def find_video_source(project_dir: str, scene_id: str,
 def resolve_channel_asset(filename: str, scripts_dir: str, config: dict) -> str:
     """
     Resolve a channel-specific asset file (bgm.mp3, and later a watermark logo,
-    intro/outro sting, or custom font) against channel_dna/<name>/ — the directory
+    intro/outro sting, or custom font) against <channel_dna>/<name>/ — the directory
     convention established in Phase 1 Closeout §D.8. Returns "" if the channel
     assets dir can't be derived (no channel_dna_file) or the file isn't in it;
     callers needing a project-override/legacy-root fallback compose this with
@@ -525,7 +525,7 @@ def resolve_outro_card(scripts_dir: str, config: dict) -> tuple:
     but missing is always a real misconfiguration (the file is expected to exist by the
     time anyone runs a stitch), but outro_card.enabled can be true in DNA before the asset
     has ever been generated — Phase 3 (cta_plan.md) built this support specifically so it
-    would be ready the moment channel_dna/<name>/outro_card.png exists, without gating the
+    would be ready the moment <channel_dna>/<name>/outro_card.png exists, without gating the
     rest of the pipeline on that file showing up first. Missing asset prints a visible
     warning and the stitch proceeds without an outro card — silent skip would hide a real
     typo in the DNA's "asset" filename just as easily as it would hide "not made yet".

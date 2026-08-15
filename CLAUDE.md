@@ -44,19 +44,37 @@ pipeline_config.json        HOW THE MACHINE RUNS (subject-agnostic)
                              aspect ratio, provider order, scene timing, venv paths,
                              credentials_dir, channel_dna_file (which DNA to load)
 
-channel_dna/<name>.json      WHAT THE CHANNEL IS (subject-specific, brand)
+C:\Bakcup_Asus\shared-tools\channel_dna\<name>.json
+                            WHAT THE CHANNEL IS (subject-specific, brand)
                              voice, script style, visual style, watermark, YouTube
                              metadata, the approved subject list ("subjects", renamed
                              from Shorts' "approved_species")
 ```
+
+⚠️ **`channel_dna/` moved OUT of this repo on 2026-08-14** — it is now at
+`C:\Bakcup_Asus\shared-tools\channel_dna\`, beside the shared WhisperX venv. The `Merge_videos`
+composer became a second consumer of the same DNA and the same `bgm.mp3` / `outro_card.png`;
+whichever project held them the other had to reach across into its folder, and two copies drift.
+Same reasoning and same destination as the WhisperX venv relocation, so no single project's folder
+appears to own something two projects depend on.
+
+**The move needed exactly one line of change** — `pipeline_config.json`'s `channel_dna_file`, kept
+relative (`../../shared-tools/channel_dna/aeonium_glow.json`) so the whole `C:\Bakcup_Asus` tree
+stays relocatable. Nothing else: `_resolve_dna_path()` already honoured absolute paths and joined
+relative ones against `scripts_dir`, and `channel_assets_dir()` **derives** the assets folder from
+that pointer, so `bgm_file` and `cta.outro_card.asset` (bare filenames) followed automatically.
+All 13 tests pass after the move — note 4 of them need Python 3.11 for `mutagen`.
+
+**The shared folder is not a git repo**, so the DNA is no longer versioned by this pipeline's
+history. Worth `git init`-ing there if the DNA starts changing often.
 
 **Rule of thumb: if a viewer would notice the change, it belongs in DNA.** `config_loader.py`
 shallow-merges the DNA dict over the base config (DNA wins on collision) and returns one flat
 dict — every `config.get("some_key")` call site is unchanged regardless of which file the
 value actually lives in.
 
-**Channel-scoped assets** (binaries, not JSON) live in `channel_dna/<name>/`, adjacent to
-`channel_dna/<name>.json` — e.g. `channel_dna/aeonium_glow/bgm.mp3`. A DNA key naming an asset
+**Channel-scoped assets** (binaries, not JSON) live in `<channel_dna>/<name>/`, adjacent to
+`<channel_dna>/<name>.json` — e.g. `.../channel_dna/aeonium_glow/bgm.mp3`. A DNA key naming an asset
 (`bgm_file`) holds a bare filename resolved against that directory via
 `config_loader.channel_assets_dir()` / `stitch_video_longform.resolve_channel_asset()`. Don't
 move assets back to the pipeline root — a per-project override still works

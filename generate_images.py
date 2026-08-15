@@ -597,7 +597,7 @@ def _extract_setting(prompt: str, known_settings: list) -> str:
 def approved_species_list(config: dict) -> list:
     """
     Flatten config['subjects'] into a list of entries for names_species() to match
-    against. Real shape (from channel_dna/*.json, merged into config by
+    against. Real shape (from <channel_dna>/*.json, merged into config by
     config_loader.py) is a dict keyed by canonical name, each value optionally
     carrying an "aliases" list (Phase 1.5, BUILD_BRIEF_PHASE_1_5.md — e.g.
     "Haworthiopsis fasciata" with alias "Haworthia fasciata", the older name it's
@@ -686,7 +686,7 @@ def validate_and_fix_shots(shot_prompts: dict, shots_needing_gen: list, config: 
     # ── DNA-driven rule data (Phase 1.5, BUILD_BRIEF_PHASE_1_5.md) ──────────────
     # The rule ENGINE below (retry loop, overuse threshold, matching algorithms) is
     # subject-independent and stays in code — see §2 of the brief. Only the actual
-    # succulent-specific vocabulary comes from channel_dna/<name>.json's "validation"
+    # succulent-specific vocabulary comes from <channel_dna>/<name>.json's "validation"
     # block now; a channel for a different subject supplies its own without touching
     # this function.
     validation = config.get("validation", {})

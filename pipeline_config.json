@@ -1,7 +1,8 @@
 {
   "_comment": "pipeline_config.json: HOW THE MACHINE RUNS (subject-agnostic). channel_dna (WHAT THE CHANNEL IS, brand/subject-specific) is shallow-merged over this by config_loader.py -- see channel_dna_file below.",
 
-  "channel_dna_file": "channel_dna/aeonium_glow.json",
+  "channel_dna_file": "../../shared-tools/channel_dna/aeonium_glow.json",
+  "_note_channel_dna_file": "Moved out of this repo 2026-08-14 to C:\\Bakcup_Asus\\shared-tools\\channel_dna\\, because the Merge_videos composer became a second consumer of the same DNA and assets (bgm.mp3, outro_card.png). Whichever project held them, the other had to reach across into its folder; duplicating gives two bgm.mp3 files that drift. Same reasoning, and the same destination, as the WhisperX venv move -- so no single project's folder appears to own something two projects depend on. Kept RELATIVE, not absolute, so the whole C:\\Bakcup_Asus tree stays relocatable. This pointer was the ONLY code change the move required: _resolve_dna_path() already honoured absolute paths and joined relative ones against scripts_dir, and channel_assets_dir() derives the assets folder from this path, so bgm_file and cta.outro_card.asset (bare filenames) followed automatically.",
 
   "image_aspect_ratio": "16:9",
   "image_provider_order": ["xai", "replicate", "gemini"],
