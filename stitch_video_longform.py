@@ -660,8 +660,18 @@ def write_burn_srt(project_dir: str, scenes: list) -> str:
             continue
         time_line = lines[1]
         start_str = time_line.split(" --> ")[0].strip()
+        end_str = time_line.split(" --> ")[1].strip()
         start = _srt_timestamp_to_seconds(start_str)
-        if any(ws <= start <= we for ws, we in exclude_windows):
+        end = _srt_timestamp_to_seconds(end_str)
+        # Overlap test with a 5ms tolerance, not a hair-trigger start-in-window check.
+        # WhisperX writes video_start with sub-ms precision (598.082245...) while the SRT
+        # timestamp rounds to milliseconds (598.082) — a strict `ws <= start` misses cues
+        # that start exactly at their own window's start (found on Gravel_S1, 2026-08-14:
+        # the CTA cue for SCENE-119 survived burning and appeared over the card). A cue
+        # that starts slightly before or ends inside the narration window must also be
+        # stripped — it overlaps the card either way.
+        EPS = 0.005
+        if any(ws - EPS <= start and start < we + EPS for ws, we in exclude_windows):
             continue
         kept.append(block)
 

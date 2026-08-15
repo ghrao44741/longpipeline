@@ -1,50 +1,58 @@
 {
   "_comment": "channel_dna: WHAT THE CHANNEL IS (subject-specific, brand). Shallow-merged over pipeline_config.json (HOW THE MACHINE RUNS) by config_loader.py. Keep this flat -- every key here is read directly via config.get(...) by the forked scripts, unchanged from how they read pipeline_config.json before the split.",
-
   "channel_name": "AeoniumGlow",
   "channel_handle": "@aeoniumglow",
-
   "voice": "en-US-JennyNeural",
   "voice_rate": "-10%",
-
   "script_style": "You write scripts for a cozy, approachable succulent and cactus care YouTube long-form video channel called AeoniumGlow. Tone: warm, curious, encouraging -- like a knowledgeable friend explaining plant care in depth. Format: continuous narration with a clear hook, sectioned body, and close -- no headers or bullet points in the spoken text itself. Target length: a full-length explainer, not a Short -- write to the topic's natural depth rather than a fixed word count.",
-
   "bgm_file": "bgm.mp3",
-  "bgm_volume": 0.10,
-
+  "bgm_volume": 0.1,
   "_comment_cta": "Phase 3 (cta_plan.md, decisions resolved 2026-08-07). By the seam rule -- if a viewer would notice the change, it belongs in DNA -- every part of a CTA is brand, including outro_card.enabled (looks like a machine switch, answers 'does this channel use outro cards'). Per-video specifics (comment_prompt text, watch_next target) are FLAT cta_* keys in a project's config_override.json, never a nested 'cta' object -- config_loader.py rejects a nested 'cta' override to prevent silently replacing this whole block. narrative_signoff replaces the old top-level script_ending leftover from Shorts, kept as its own field rather than folded into comment_prompt_pattern -- that field is guidance on HOW to write a comment prompt (a pattern), not a literal sign-off sentence (a string); conflating the two was a category error caught 2026-08-08.",
   "cta": {
-    "ask_priority": ["watch_next", "comment", "subscribe"],
-    "in_script_ask_beats": ["comment", "watch_next"],
+    "ask_priority": [
+      "watch_next",
+      "comment",
+      "subscribe"
+    ],
+    "in_script_ask_beats": [
+      "comment",
+      "watch_next"
+    ],
     "comment_prompt_pattern": "Specific, self-categorising, mildly confessional at most. The viewer must be able to answer with one concrete detail from their own experience. Never 'let me know what you think'.",
     "narrative_signoff": "Your plant will thank you.",
     "subscribe_line": "Subscribe to @aeoniumglow for science-backed succulent care.",
-    "outro_card": { "enabled": true, "asset": "outro_card.png", "seconds": 18, "audio": "bgm_only" },
+    "outro_card": {
+      "enabled": true,
+      "asset": "outro_card.png",
+      "seconds": 18,
+      "audio": "bgm_only"
+    },
     "pinned_comment_mode": "ranked_index",
     "description_above_fold_lines": 2
   },
-
   "watermark_text": "@aeoniumglow",
   "watermark_color": "#F5EFE0",
   "watermark_fontsize": 75,
   "watermark_position": "bottom-right",
-
   "caption_fontsize": 22,
   "caption_bold": 0,
   "caption_outline": 1,
   "caption_margin_v": 72,
-
   "image_style_template": "16:9 widescreen. Warm cinematic macro photography of [SPECIES]. Setting: home windowsill, backyard garden, small nursery, or florist -- intimate and personal, never generic or commercial. Soft natural window light or warm golden-hour sunlight. Shallow depth of field. Rich earthy tones -- terracotta, sage green, deep charcoal. Botanical and editorial feel. Props: terracotta pots, copper or brass watering cans, wooden tools, linen surfaces. Where hands appear, show only faceless human hands -- no faces, no wrists cut off awkwardly, hands engaged naturally in plant care. No text, no logos. No blue or cool tones. No fantasy or biologically impossible plant forms. Botanically accurate. Photorealistic.",
-
   "youtube_category_id": "28",
-  "youtube_tags": ["succulents", "aeonium", "plantcare", "succulentcare", "cactus", "plants"],
+  "youtube_tags": [
+    "succulents",
+    "aeonium",
+    "plantcare",
+    "succulentcare",
+    "cactus",
+    "plants"
+  ],
   "youtube_default_language": "en",
   "youtube_made_for_kids": false,
-  "youtube_pinned_comment": "💧 Does your succulent look like this? Drop a photo or description below — I read every comment! 🌱 Subscribe to @aeoniumglow for weekly science-backed plant care tips.",
+  "youtube_pinned_comment": "💧 Does your succulent look like this? Drop a photo or description below! 🌱 Subscribe to @aeoniumglow for weekly science-backed plant care tips.",
   "music_credit": "Royalty Free Music: Bensound.com\nLicense code: DEXONB9LQW8Y2ZJP",
-
   "_comment_subjects": "Expanded Phase 1.5, backed by succulent_demand_and_subjects.md (channel-strategy doc, not this repo). 21 distinct subjects -- aliases are a field on the canonical entry, never a duplicate row, so anything treating subjects as a set of distinct species (variety checks, coverage counts, per-scene selection) stays correct. names_species() matches on canonical name OR any alias, returning the canonical name either way.",
-
   "subjects": {
     "Echeveria elegans": {
       "common": "Mexican Snowball",
@@ -84,7 +92,9 @@
     },
     "Haworthiopsis fasciata": {
       "common": "Zebra Plant",
-      "aliases": ["Haworthia fasciata"],
+      "aliases": [
+        "Haworthia fasciata"
+      ],
       "visual": "dark green with white horizontal banding, compact, no farina",
       "use_for": "low-light succulent examples, indoor shade-tolerant species references",
       "note": "Reclassified from Haworthia to Haworthiopsis; still widely sold under the old name. Restructured from a standalone 'Haworthia fasciata' entry into canonical name + alias, Phase 1.5."
@@ -148,7 +158,9 @@
     },
     "Curio rowleyanus": {
       "common": "String of Pearls",
-      "aliases": ["Senecio rowleyanus"],
+      "aliases": [
+        "Senecio rowleyanus"
+      ],
       "visual": "trailing thin stems bearing strands of spherical, pea-like green beads, cascading form",
       "use_for": "hanging-basket/trailing succulent references, highest rot-risk ranked example",
       "note": "Reclassified from Senecio to Curio; still widely sold under the old name."
@@ -160,27 +172,37 @@
       "note": "Apocynaceae with succulent tubers/thickened leaves -- a deliberate channel-scope inclusion (same category of decision as the Snake Plant exclusion), not a botanical-purity oversight."
     }
   },
-
   "validation": {
     "_comment": "Extracted from generate_images.py's hardcoded succulent-specific rules -- Phase 1.5, BUILD_BRIEF_PHASE_1_5.md. The rule engine (validate_and_fix_shots, the retry loop, the overuse threshold, the matching algorithms) stays in code and is subject-independent; this block is the DNA half -- the actual succulent vocabulary the engine runs against.",
-
     "subject_reference_pattern": {
       "pattern": "\\b(plants?|succulents?|leaf|leaves|rosettes?|stems?|fronds?|foliage|petals?)\\b",
       "label": "mentions plant material with no real species named",
       "note": "Only require a named subject when the prompt describes subject material. Plant-free soil/pot/mechanism shots are a real recurring pattern (Myths_S2_yt: soil cross-section, drainage-hole close-up) and must never be force-fed an irrelevant species. 'label' is the diagnostic-print category description (Phase 1.5 follow-up -- previously hardcoded in generate_images.py, found leaking succulent wording into the console during the §6.7 portability check); 'guidance' fields elsewhere in this block are the model-facing text, a separate concern."
     },
-
     "setting_vocabulary": {
       "ordered": true,
       "note": "ORDER IS LOAD-BEARING -- _extract_setting returns the FIRST match, so multi-word forms must precede the bare words they contain. Do not alphabetise. The bare forms (windowsill, potting bench, ...) were added after the overuse check silently never fired for months because _extract_setting returned \"\" for nearly every real prompt without them.",
       "keywords": [
-        "home windowsill", "backyard garden", "small nursery", "horticulture room",
-        "home plant room", "florist", "kitchen", "living room", "patio",
-        "windowsill", "potting bench", "workbench", "greenhouse", "nursery",
-        "garden", "balcony", "windowbox", "plant shelf"
+        "home windowsill",
+        "backyard garden",
+        "small nursery",
+        "horticulture room",
+        "home plant room",
+        "florist",
+        "kitchen",
+        "living room",
+        "patio",
+        "windowsill",
+        "potting bench",
+        "workbench",
+        "greenhouse",
+        "nursery",
+        "garden",
+        "balcony",
+        "windowbox",
+        "plant shelf"
       ]
     },
-
     "action_checks": [
       {
         "id": "watering-in-progress",
@@ -190,7 +212,6 @@
         "label": "narration describes a water/pour/drainage action not shown in the image"
       }
     ],
-
     "reversal_checks": [
       {
         "id": "dehydration-vs-watering",
@@ -217,7 +238,6 @@
         "guidance": "Narration describes nocturnal/nighttime behaviour -- the image must show a moonlight or nighttime atmosphere, not daytime lighting."
       }
     ],
-
     "hallucination_checks": [
       {
         "id": "invented-pest-disease",

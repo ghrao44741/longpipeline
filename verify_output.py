@@ -720,6 +720,82 @@ def check_black_freeze(project_dir: str, video_path: str, config: dict, scripts_
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# (e2) NARRATION GAPS — silent cuts inside a scene's speech span
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def check_narration_gaps(project_dir: str, video_path: str, config: dict,
+                         min_gap_s: float = 0.35, silence_dbfs: float = -45.0) -> dict:
+    """
+    Catches the "narration stitching is not fluent" class of defect (found on
+    Gravel_S1, 2026-08-14): the voiceover is generated as ONE continuous narration.wav,
+    then auto_split_scenes.py cuts per-scene MP3s at WhisperX word timestamps and the
+    stitch concatenates them with padding. When a long sentence gets subdivided at a comma
+    (split_long_sentence) or a word boundary lands mid-phrase, the reassembled audio has a
+    silent gap where speech should be — an audible cut mid-sentence.
+
+    Method: run ffmpeg silencedetect once over the whole file (same bounded-read approach
+    as _window_dbfs — never a whole-file pydub load), then classify every silence gap:
+      - INSIDE a scene's speech span (after trimming per-scene pre/post padding and the
+        deliberate CLIP_EXTRA video tail) => a real narration cut. GATED.
+      - Entirely within the outro card span => deliberate (held frame, BGM only). Ignored.
+      - At scene boundaries (between scenes, or in the CLIP_EXTRA tail) => natural pause
+        / deliberate padding. Ignored.
+    BGM is quiet but not silent (typically -35 to -45 dBFS on this channel's mixes), so a
+    -45 dBFS threshold means only genuine digital silence is flagged, never "quiet music".
+
+    min_gap_s is deliberately below the 0.15s per-scene padding * 2 + natural pause, so it
+    only fires on gaps that cannot be explained by the pipeline's own construction.
+    """
+    manifest_path = os.path.join(project_dir, "manifest.json")
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        scenes = json.load(f)["scenes"]
+
+    scene_windows = []  # (start, end) of the speech span, padding + CLIP_EXTRA trimmed
+    for s in scenes:
+        if s.get("video_start") is None or s.get("video_end") is None:
+            continue
+        pre = s.get("audio_pre_padding", 0.15)
+        post = s.get("audio_post_padding", 0.15)
+        scene_windows.append((s["video_start"] + pre, s["video_end"] - post, s["id"]))
+
+    # Outro card span — static held frame, no narration by design.
+    _, outro_seconds = resolve_outro_card(os.path.dirname(os.path.abspath(__file__)), config)
+    outro_start = None
+    if outro_seconds:
+        total = audio_duration(video_path)
+        outro_start = max(0.0, total - outro_seconds)
+
+    cmd = [
+        "ffmpeg", "-i", video_path,
+        "-af", f"silencedetect=noise={silence_dbfs}dB:d={min_gap_s}",
+        "-f", "null", "-",
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    stderr = result.stderr
+
+    silence_starts = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", stderr)]
+    silence_ends = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", stderr)]
+
+    cuts = []
+    for start_s, end_s in zip(silence_starts, silence_ends):
+        if outro_start is not None and start_s >= outro_start:
+            continue  # outro card — deliberate BGM-only hold
+        # A cut is only a problem if the gap sits INSIDE a scene's speech span.
+        inside = next((w for w in scene_windows if w[0] <= start_s < w[1]), None)
+        if inside is None:
+            continue  # scene boundary / CLIP_EXTRA tail / inter-scene gap — natural
+        cuts.append((inside[2], start_s, end_s - start_s))
+
+    detail = (f"{len(silence_starts)} silence gap(s) detected (>= {min_gap_s:.2f}s at "
+              f"{silence_dbfs:.0f} dBFS); {len(cuts)} inside a scene's speech span")
+    if cuts:
+        detail += " -- " + "; ".join(
+            f"{cid}: {s:.1f}s ({d:.2f}s)" for cid, s, d in cuts[:8]
+        )
+    return {"name": "Narration gaps", "passed": not cuts, "detail": detail}
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # (f) LOUDNESS
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -895,6 +971,9 @@ def main():
 
     print("[e] Black/freeze frames...")
     results.append(check_black_freeze(project_dir, video_path, config, scripts_dir))
+
+    print("[e2] Narration gaps...")
+    results.append(check_narration_gaps(project_dir, video_path, config))
 
     print("[f] Loudness...")
     results.append(check_loudness(video_path))

@@ -399,7 +399,7 @@ def build_pinned_comment(project_dir: str, manifest: dict, config: dict) -> str:
             # must follow; the actual line is per-video, never hardcoded here).
             comment_prompt = config.get("cta_comment_prompt", "").strip()
             if comment_prompt:
-                lines.append(f"{comment_prompt} I read every comment.")
+                lines.append(f"{comment_prompt} Drop yours below.")
             return "\n".join(lines).strip()
 
     return config.get("youtube_pinned_comment", "").strip()
