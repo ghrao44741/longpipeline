@@ -88,7 +88,8 @@ def fetch_live_status(youtube, video_id: str) -> dict:
 
 
 def sync_project(youtube, project_dir: str, comment_text: str, post: bool,
-                 force_comment: bool, scripts_dir: str, thumb_path: str | None = None) -> None:
+                 force_comment: bool, scripts_dir: str, thumb_path: str | None = None,
+                 description: str | None = None) -> None:
     label = os.path.basename(project_dir)
     manifest_path = os.path.join(project_dir, "manifest.json")
     if not os.path.exists(manifest_path):
@@ -127,6 +128,19 @@ def sync_project(youtube, project_dir: str, comment_text: str, post: bool,
     if live["published_at"]:
         when_label = "Live since" if live["privacy_status"] == "public" else "Uploaded"
         print(f"   {when_label}: {live['published_at']}")
+
+    # ── optional description update (existing video, no re-upload of the MP4) ──
+    if description:
+        try:
+            # videos().update requires the FULL snippet (title, description, tags,
+            # categoryId) — fetch the live snippet, swap description, push back.
+            snippet = youtube.videos().list(part="snippet", id=video_id).execute()["items"][0]["snippet"]
+            snippet["description"] = description
+            youtube.videos().update(part="snippet", body={"id": video_id, "snippet": snippet}).execute()
+            print(f"   ✅ Description updated ({len(description)} chars)")
+        except HttpError as e:
+            print(f"   ⚠️  Description update failed: {e}")
+            print("      Set it manually in YouTube Studio.")
 
     # ── optional thumbnail upload (existing video, no re-upload of the MP4) ──
     if thumb_path:
@@ -210,6 +224,10 @@ def main():
                         help="Upload thumbnail.png (or PATH) from the project folder to the EXISTING video "
                              "-- for a live/draft video whose thumbnail changed after upload. "
                              "No re-upload of the MP4; no duplicate video is created.")
+    parser.add_argument("--description", action="store_true",
+                        help="Rebuild the description with build_description() and push it to the "
+                             "EXISTING video (no MP4 re-upload). Use after build_description() logic "
+                             "changes or config_override.json edits.")
     args = parser.parse_args()
 
     scripts_dir = os.path.dirname(os.path.abspath(__file__))
@@ -267,10 +285,19 @@ def main():
     config = load_config(scripts_dir, project_dir)
     youtube = get_authenticated_service(scripts_dir, credentials_dir=config.get("credentials_dir"))
 
+    # ── optional description rebuild ───────────────────────────────────────────
+    description = None
+    if args.description:
+        from upload_youtube import build_description
+        with open(os.path.join(project_dir, "manifest.json"), "r", encoding="utf-8") as f:
+            manifest = json.load(f)
+        description = build_description(project_dir, manifest, config)
+        print(f"   ℹ️  Rebuilt description ({len(description)} chars) — will push to existing video.")
+
     try:
         sync_project(youtube, project_dir, comment_text, post=not args.no_comment,
                      force_comment=args.force_comment, scripts_dir=scripts_dir,
-                     thumb_path=thumb_path)
+                     thumb_path=thumb_path, description=description)
     except HttpError as e:
         print(f"\n⚠️  {os.path.basename(project_dir)}: API error — {e}")
 

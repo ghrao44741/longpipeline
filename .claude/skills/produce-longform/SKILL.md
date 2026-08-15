@@ -321,15 +321,31 @@ other "send/publish on someone's behalf" action, not as a routine pipeline stage
 **Title is the one thing that needs a real decision; everything else is automatic.**
 `upload_youtube.py`'s `build_description()` generates the full description from existing
 project state — hook (first two sentences of `script.txt`), watch-next tease (from
-`config_override.json`'s flat `cta_watch_next_*` keys, if set), chapters (from `items.json`
-for a listicle, none yet for narrative), links, the subscribe line, tags, and the music credit
-— all `channel_dna`-driven. Set the real title via `manifest.json`'s `"title"` field before
-uploading (it defaults to the bare project name otherwise — an easy thing to forget), or pass
-`--title` at upload time. Confirm before running:
+`config_override.json`'s flat `cta_watch_next_*` keys, if set), a script-derived summary
+sentence, chapters (from `items.json` for a listicle, none yet for narrative), a per-video
+comment CTA, links, the subscribe line, tags, and the music credit — all `channel_dna`-driven.
+Set the real title via `manifest.json`'s `"title"` field before uploading (it defaults to the
+bare project name otherwise — an easy thing to forget), or pass `--title` at upload time.
+Confirm before running:
 - `manifest.json`'s `"title"` is a real, genus-level, common-name title — not the project name
 - `youtube_tags` (channel_dna) does not contain `shorts`
 - chapters will come from `items.json` (listicle) or don't exist yet (narrative) — never
   hand-author them
+
+**Summary sentence (added 2026-08-15):** `build_description()` scans `script.txt` for the
+first sentence starting with a first-person intent marker (`"I am going to "`, `"I will "`,
+`"We will "`, `"We'll "`, `"In this video "`) and drops it in as a scannable "what this video
+does" line between the hook and the chapters. Falls back to nothing if the script never states
+intent that way — it never invents summary copy. Not a per-video config key; it comes straight
+from whatever the script actually says, so writing scripts to the channel template (which
+already asks for an "I am going to..." mission sentence early on) is what makes this appear.
+
+**Comment CTA (added 2026-08-15):** a second, optional per-video flat key,
+`cta_comment_prompt` in `config_override.json`, drops the same ask used for the pinned comment
+into the description itself, placed after chapters and before links. Write it as a complete,
+self-contained question ("Tell me in the comments which number on this list is already
+stretching on your windowsill") — it has no trailing "Drop yours below." the way the pinned
+comment's ranked-list version does, since that phrase only makes sense following a list.
 
 **Check the outro card's watch-next line before every upload — it is a single shared channel
 asset, not per-project.** `resolve_outro_card()` always resolves
@@ -401,6 +417,17 @@ and exits cleanly rather than repeating the 403 `upload_youtube.py --skip-commen
 Skips re-posting if `manifest.json` already has a `youtube_pinned_comment_id` (use
 `--force-comment` to post again anyway); `--text`/`--text-file` override the pipeline-built
 comment; `--no-comment` syncs status only, never posts.
+
+**`--description` (added 2026-08-15): push a rebuilt description to an already-uploaded video,
+no MP4 re-upload.** Rebuilds via the same `build_description()` used at upload time and pushes
+it with a `videos().update()` call (fetches the live snippet first, swaps only the description
+field, pushes the full snippet back — the API requires the whole snippet on any update, not a
+partial patch). Use this after editing `config_override.json`'s CTA keys (watch-next, comment
+prompt) or after a `build_description()` logic change, instead of re-running the full upload:
+
+```powershell
+python post_update.py --project {Project} --description
+```
 
 **Manual, no API path:** publishing the draft to Public (Studio → confirm thumbnail/title →
 Public), and pinning a posted comment to the top (Studio → Comments → ⋮ → Pin to top — the API
