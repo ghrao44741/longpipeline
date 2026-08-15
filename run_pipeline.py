@@ -160,6 +160,21 @@ def run_voiceover(scripts_dir, project_dir, config):
         print(f"❌ script.txt not found at {script_path}")
         sys.exit(1)
 
+    # Pre-flight: mid-sentence line wraps make edge-tts insert a ~1.1s pause at the wrap
+    # point (confirmed directly, Gravel_S1, 2026-08-15 — see check_script.py's own
+    # docstring and CLAUDE.md's BACKLOG for the full root-cause writeup). Fails loud here
+    # rather than silently shipping another ~90s of dead air into the narration — cheap to
+    # fix (edge-tts is free/local) and much cheaper to catch here than by ear later.
+    check = subprocess.run(
+        [sys.executable, os.path.join(scripts_dir, "check_script.py"), "--project", project_dir],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+    )
+    if check.returncode != 0:
+        print(check.stdout)
+        print(f"❌ script.txt has unresolved issues — see above.")
+        print(f"   Fix with: python check_script.py --project {project_dir} --fix")
+        sys.exit(1)
+
     source_audio_dir = os.path.join(project_dir, "source_audio")
     os.makedirs(source_audio_dir, exist_ok=True)
     wav_out = os.path.join(source_audio_dir, "narration.wav")

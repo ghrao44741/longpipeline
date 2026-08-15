@@ -289,6 +289,72 @@ surface on its own.
 
 ## BACKLOG
 
+- **New bug class, root-caused and closed same-day: `edge-tts --file` inserts a real ~1.1s
+  pause at ANY newline in the input text, including one that lands mid-sentence from pure
+  human-readable word-wrapping — not just at paragraph breaks (2026-08-15, Gravel_S1).**
+  Found from a real, repeated "the video feels like it's pausing" complaint that survived a
+  full re-diagnosis of `CLIP_EXTRA`/scene-cut-density (that diagnosis was real and correctly
+  explained the *finished-video* pacing question it was asked about, but was not the cause
+  of *this* complaint — see below) and a second cause the user correctly suspected but I'd
+  initially dismissed: the *raw, unstitched* narration audio itself, before any of the
+  pipeline's own scene-splitting or `CLIP_EXTRA` logic ever touches it.
+
+  **Isolated with a controlled before/after TTS test, not inferred:** `"The person who\npotted
+  it was being careful."` (embedded newline, from Gravel_S1's actual `script.txt`, itself
+  copied from a ~90-char-wrapped vault markdown doc) rendered with a genuine, measured 1.08s
+  silence between "who" (ends 5.874s) and "potted" (starts 7.035s) — confirmed both via
+  `ffmpeg silencedetect` on the real per-scene mp3 and via WhisperX's own word-level
+  timestamps. The identical text with the newline removed (`"The person who potted it was
+  being careful."`, one line) rendered 1.2s shorter with zero internal gap. Scaled across the
+  whole script: Gravel_S1's `script.txt` had 77 mid-sentence line-wraps (lines not ending in
+  `.?!` immediately followed by another non-blank line within the same paragraph); removing
+  all of them shortened the raw narration from 657.7s to 567.4s — a 90.3s reduction, matching
+  77 × ~1.17s almost exactly. **Etiolation_S1's `script.txt` has zero mid-sentence wraps**
+  (whichever way it happened to be authored, not from any check that existed at the time) —
+  this is the actual, sole reason it never showed this problem, not sentence length, not
+  scene count, not `CLIP_EXTRA`. A prior attempt to fix Gravel_S1's pausing by rewriting to
+  shorter sentences made the *unrelated* `CLIP_EXTRA`-density problem worse (more, more
+  frequent scene cuts) while doing nothing for this bug, because the short-sentence rewrite
+  carried the same word-wrapping habit and still had 72 mid-sentence wraps of its own.
+
+  **These are two distinct, independently-real bug classes that happened to surface in the
+  same session on the same project — do not collapse them into one fix or assume closing one
+  closes the other:**
+  1. `CLIP_EXTRA` render-padding density (existing, documented above in this file) — affects
+     only the *finished, stitched* video's pacing, scales with scene-cut frequency, and has
+     nothing to do with raw narration audio.
+  2. This newline bug — affects the *raw narration audio itself*, upstream of every later
+     pipeline stage, entirely independent of scene count or `CLIP_EXTRA`. A perfectly-tuned
+     `CLIP_EXTRA` value cannot fix a pause that's already baked into the TTS output.
+
+  **Also worth recording: an audio-only preview (narration + BGM mixed, real `CLIP_EXTRA` gap
+  timing, zero images/video) is a legitimate, fast, free way to sanity-check pacing before
+  spending on image generation** — built ad hoc this session (concat each scene's mp3 padded
+  with `apad=pad_dur=0.5` via one `ffmpeg -filter_complex`, then mixed under BGM with the
+  exact same `loudnorm`/`amix normalize=0` formula `mix_background_music()` uses, just mapped
+  to audio-only output instead of `-map 0:v:0`). This is also what actually surfaced bug #2
+  above — the raw narration by itself (no BGM) made the pause obvious; the BGM-mixed preview
+  confirmed it was still audible even under music, which is what made clear this wasn't a
+  masking/perception question and needed a real fix, not a `CLIP_EXTRA` retune.
+
+  **Fixed at the source, not just patched on Gravel_S1:** `check_script.py` (new, forked file,
+  this pipeline only) checks any project's `script.txt` for (a) mid-sentence line wraps and
+  (b) the pipeline's own existing "no markdown/parentheses/symbols in spoken text" constraint
+  (em/en dash, semicolon, colon — auto-fixed to a plain sentence break; markdown/brackets —
+  flagged only, needs a human decision). `--fix` backs up the original to
+  `script.txt.pre_check_backup` before rewriting in place. Wired into `run_pipeline.py`'s
+  `run_voiceover()` as a hard gate — a script with unresolved issues fails loud before
+  `edge-tts` ever runs, rather than silently shipping another ~90s of dead air; catching this
+  before generation is what makes it cheap (`edge-tts` is free/local) instead of something a
+  human has to catch by ear in a finished video. Verified the gate itself doesn't introduce a
+  new failure: the subprocess call capturing `check_script.py`'s own stdout needed an explicit
+  `encoding="utf-8", errors="replace"` — the same Windows-cp1252-default class of bug
+  `console_encoding.py` exists to prevent for direct printing, just manifesting instead as a
+  `subprocess.run(text=True)` decode failure on captured child-process output containing the
+  emoji status glyphs (✅/❌/⚠️) this codebase prints everywhere. Confirmed both directions: a
+  script with real issues blocks with a clear fix command, a clean script passes straight
+  through to `edge-tts` with no false block.
+
 - **Test suite is 13 files, all passing, all in `tests/test_*.py` — this is the authoritative
   count (2026-08-08).** Third different number given for this in the same thread (12, then
   13-maybe, now confirmed 13) — the earlier undercounts were `golden_output_test.py` not
