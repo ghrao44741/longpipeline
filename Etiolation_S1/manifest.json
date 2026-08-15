@@ -1993,7 +1993,7 @@
       "whisperx_end": 559.196,
       "audio_pre_padding": 0.15,
       "audio_post_padding": 0.15,
-      "prompt": "A 16:9 widescreen mid-shot of a person gently rotating a pot of Crassula ovata (Jade Plant) on a sunlit table. The person’s hands are engaged in the task, and the plant appears healthy but is showing slight signs of stretching. The warm light casts soft shadows, enhancing the earthy tones of the scene.",
+      "prompt": "16:9 widescreen. Warm cinematic photography of a pair of hands moving a terracotta pot of Crassula ovata (Jade Plant) directly into a shaft of harsh direct sunlight streaming through a window, the pot caught mid-motion right at the sharp boundary between dim room shadow and bright overexposed light. The jade plant leaves are pale and thin from prior stretching, not yet scorched, photographed at the instant just before the damage happens. Strong directional sunlight creates a hard bright-to-shadow line cutting across the frame, high contrast, a sense of an unfolding mistake. Rich earthy tones, terracotta pot, wooden table. No text, no logos. No blue or cool tones. No clocks, no watches. Botanically accurate. Photorealistic.",
       "start": 462.18449,
       "end": 465.580408,
       "duration": 3.395918,
@@ -2236,10 +2236,10 @@
     }
   ],
   "total_duration": 529.240816,
-  "youtube_video_id": "_QgVLiUi4E8",
-  "youtube_video_url": "https://youtu.be/_QgVLiUi4E8",
+  "youtube_video_id": "wm8skvcj3SQ",
+  "youtube_video_url": "https://youtu.be/wm8skvcj3SQ",
   "youtube_privacy_status": "private",
   "youtube_live_title": "Why Your Succulent Is Stretching, Not Growing — 10 Plants Ranked",
-  "youtube_published_at": "2026-08-14T18:42:33Z",
-  "youtube_status_checked_at": "2026-08-14T18:52:47+00:00"
+  "youtube_published_at": "2026-08-15T17:00:34Z",
+  "youtube_status_checked_at": "2026-08-15T17:09:20+00:00"
 }

@@ -225,6 +225,17 @@ Show them `prompts_review.json`. Check that every prompt:
   a plant rotting at the base shows that plant in wet dense soil, or early basal softening. Not
   a hand repotting it into gritty mix. In a listicle, the fix appears once, at #1.
 - is 16:9, not 9:16
+- carries the same **dramatic weight** as its line, not just its literal subject. Confirmed on
+  Etiolation_S1 (SCENE-110): the prompt named the right species and a plausible action for "The
+  obvious correction is the one that kills the plant" — a person calmly repositioning a healthy
+  plant on a sunlit table — and it read as entirely reasonable in prompt review, because the
+  text itself isn't wrong. The rendered image was just flat: no visible tension, no sense of a
+  mistake about to happen, against the video's punchiest warning line. This is a **single-line,
+  standalone-shot** version of the grouped-shot mismatch below — literal subject correctness and
+  tonal correctness are different checks, and only the first one is visible from prompt text
+  alone. A thesis/warning line needs the prompt to describe the moment of the mistake (motion,
+  harsh light, a threshold about to be crossed), not a neutral establishing action — see the
+  fixed prompt in `manifest.json`'s SCENE-110 entry for the pattern.
 
 **For every grouped shot (a `scene_id` like `group-07`, one image spanning several scenes'
 `whisperx_start`/`end`), read the FULL combined `script` text for that entry, not just its
