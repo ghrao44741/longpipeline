@@ -301,9 +301,11 @@ def build_description(project_dir: str, manifest: dict, config: dict,
     """
     Long-form description (cta_plan.md "PER-SURFACE SPECIFICS — Description"). The first
     two lines are above the fold and the only ones most viewers see — they carry the hook
-    and the watch-next tease, not channel boilerplate. Then chapters (listicle only), then
-    links, then the subscribe line, then tags. Never #shorts — that's a Shorts leftover
-    this function used to carry unmodified; long-form isn't a Short.
+    and the watch-next tease, not channel boilerplate. Then a script-derived summary sentence
+    (if the script states its intent with an "I am going to..."-style marker), then chapters
+    (listicle only), then a per-video comment CTA (config_override.json's cta_comment_prompt,
+    if set), then links, then the subscribe line, then tags. Never #shorts — that's a Shorts
+    leftover this function used to carry unmodified; long-form isn't a Short.
 
     Watch-next target is per-video, read from FLAT cta_watch_next_* keys in the project's
     own config_override.json (never a nested "cta" object — config_loader.py rejects that,
@@ -329,6 +331,30 @@ def build_description(project_dir: str, manifest: dict, config: dict,
     watch_next_id    = config.get("cta_watch_next_id", "").strip()
     watch_next_why   = config.get("cta_watch_next_why", "").strip()
 
+    # ── Summary block (script-derived "what this video does" sentence) ────────
+    # Looks for the first sentence with a first-person intent marker ("I am going
+    # to…", "I will…", "We'll…", "In this video…") — in scripts written to the
+    # channel template this is the sentence that states the video's mission
+    # (e.g. Etiolation_S1: "I am going to count down ten succulents that stretch
+    # when the light is not enough…"). Falls back to nothing if absent — a
+    # narrative that never states intent stays hook + chapters, no invented copy.
+    summary = ""
+    if os.path.exists(script_path):
+        with open(script_path, "r", encoding="utf-8") as f:
+            script_text = f.read().strip()
+        for para in script_text.split("\n\n"):
+            for sent in para.replace("...", "…").split(". "):
+                s = sent.strip()
+                if s.startswith(("I am going to ", "I am going to\n", "I will ", "We will ", "We'll ", "In this video ")):
+                    summary = s.rstrip(".")
+                    if summary and not summary.endswith("."):
+                        summary += "."
+                    break
+            if summary:
+                break
+
+    comment_prompt = config.get("cta_comment_prompt", "").strip()
+
     lines = []
 
     # ── Above the fold: hook + watch-next tease, first two lines ──────────────
@@ -342,10 +368,24 @@ def build_description(project_dir: str, manifest: dict, config: dict,
     if lines:
         lines.append("")
 
+    # ── Summary block (scannable "what you'll learn" line) ────────────────────
+    if summary:
+        lines.append(summary)
+        lines.append("")
+
     # ── Chapters (listicle only) ───────────────────────────────────────────────
     for t, label in build_chapters(manifest):
         lines.append(f"{format_chapter_timestamp(t)} {label}")
     if lines and lines[-1] != "":
+        lines.append("")
+
+    # ── Comment CTA (per-video flat key, same source as the pinned comment) ────
+    # The prompt is a complete question ("Which number is on your windowsill?"),
+    # so it stands alone here — no "Drop yours below." suffix (that phrase works
+    # after the ranked list in the pinned comment, but reads clunky after a
+    # self-contained ask).
+    if comment_prompt:
+        lines.append(comment_prompt)
         lines.append("")
 
     # ── Links ───────────────────────────────────────────────────────────────────
@@ -399,7 +439,7 @@ def build_pinned_comment(project_dir: str, manifest: dict, config: dict) -> str:
             # must follow; the actual line is per-video, never hardcoded here).
             comment_prompt = config.get("cta_comment_prompt", "").strip()
             if comment_prompt:
-                lines.append(f"{comment_prompt} I read every comment.")
+                lines.append(f"{comment_prompt} Drop yours below.")
             return "\n".join(lines).strip()
 
     return config.get("youtube_pinned_comment", "").strip()

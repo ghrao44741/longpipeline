@@ -225,6 +225,17 @@ Show them `prompts_review.json`. Check that every prompt:
   a plant rotting at the base shows that plant in wet dense soil, or early basal softening. Not
   a hand repotting it into gritty mix. In a listicle, the fix appears once, at #1.
 - is 16:9, not 9:16
+- carries the same **dramatic weight** as its line, not just its literal subject. Confirmed on
+  Etiolation_S1 (SCENE-110): the prompt named the right species and a plausible action for "The
+  obvious correction is the one that kills the plant" — a person calmly repositioning a healthy
+  plant on a sunlit table — and it read as entirely reasonable in prompt review, because the
+  text itself isn't wrong. The rendered image was just flat: no visible tension, no sense of a
+  mistake about to happen, against the video's punchiest warning line. This is a **single-line,
+  standalone-shot** version of the grouped-shot mismatch below — literal subject correctness and
+  tonal correctness are different checks, and only the first one is visible from prompt text
+  alone. A thesis/warning line needs the prompt to describe the moment of the mistake (motion,
+  harsh light, a threshold about to be crossed), not a neutral establishing action — see the
+  fixed prompt in `manifest.json`'s SCENE-110 entry for the pattern.
 
 **For every grouped shot (a `scene_id` like `group-07`, one image spanning several scenes'
 `whisperx_start`/`end`), read the FULL combined `script` text for that entry, not just its
@@ -310,27 +321,50 @@ other "send/publish on someone's behalf" action, not as a routine pipeline stage
 **Title is the one thing that needs a real decision; everything else is automatic.**
 `upload_youtube.py`'s `build_description()` generates the full description from existing
 project state — hook (first two sentences of `script.txt`), watch-next tease (from
-`config_override.json`'s flat `cta_watch_next_*` keys, if set), chapters (from `items.json`
-for a listicle, none yet for narrative), links, the subscribe line, tags, and the music credit
-— all `channel_dna`-driven. Set the real title via `manifest.json`'s `"title"` field before
-uploading (it defaults to the bare project name otherwise — an easy thing to forget), or pass
-`--title` at upload time. Confirm before running:
+`config_override.json`'s flat `cta_watch_next_*` keys, if set), a script-derived summary
+sentence, chapters (from `items.json` for a listicle, none yet for narrative), a per-video
+comment CTA, links, the subscribe line, tags, and the music credit — all `channel_dna`-driven.
+Set the real title via `manifest.json`'s `"title"` field before uploading (it defaults to the
+bare project name otherwise — an easy thing to forget), or pass `--title` at upload time.
+Confirm before running:
 - `manifest.json`'s `"title"` is a real, genus-level, common-name title — not the project name
 - `youtube_tags` (channel_dna) does not contain `shorts`
 - chapters will come from `items.json` (listicle) or don't exist yet (narrative) — never
   hand-author them
 
+**Summary sentence (added 2026-08-15):** `build_description()` scans `script.txt` for the
+first sentence starting with a first-person intent marker (`"I am going to "`, `"I will "`,
+`"We will "`, `"We'll "`, `"In this video "`) and drops it in as a scannable "what this video
+does" line between the hook and the chapters. Falls back to nothing if the script never states
+intent that way — it never invents summary copy. Not a per-video config key; it comes straight
+from whatever the script actually says, so writing scripts to the channel template (which
+already asks for an "I am going to..." mission sentence early on) is what makes this appear.
+
+**Comment CTA (added 2026-08-15):** a second, optional per-video flat key,
+`cta_comment_prompt` in `config_override.json`, drops the same ask used for the pinned comment
+into the description itself, placed after chapters and before links. Write it as a complete,
+self-contained question ("Tell me in the comments which number on this list is already
+stretching on your windowsill") — it has no trailing "Drop yours below." the way the pinned
+comment's ranked-list version does, since that phrase only makes sense following a list.
+
 **Check the outro card's watch-next line before every upload — it is a single shared channel
 asset, not per-project.** `resolve_outro_card()` always resolves
-`channel_dna/aeonium_glow/outro_card.png` (no per-project override exists for this asset,
+`<channel_dna>/aeonium_glow/outro_card.png` (no per-project override exists for this asset,
 unlike `bgm_file`) — whatever it currently says is what every video shares until someone
 regenerates it. If this video's `cta_watch_next_title` differs from what the card currently
 shows, regenerate it and then copy it into place — **its own `--out` default writes inside
 `outro_card_src/`, one level below the real live asset, not the live asset itself**:
 ```powershell
-python channel_dna/aeonium_glow/outro_card_src/render_outro_card.py --watch-next-title "..."
-copy channel_dna\aeonium_glow\outro_card_src\outro_card.png channel_dna\aeonium_glow\outro_card.png
+$dna = "C:\Bakcup_Asus\shared-tools\channel_dna"
+python "$dna\aeonium_glow\outro_card_src\render_outro_card.py" --watch-next-title "..."
+copy "$dna\aeonium_glow\outro_card_src\outro_card.png" "$dna\aeonium_glow\outro_card.png"
 ```
+**`channel_dna` moved out of this repo on 2026-08-14** to `C:\Bakcup_Asus\shared-tools\channel_dna\`
+— the `Merge_videos` composer became a second consumer of the same DNA and the same `bgm.mp3` /
+`outro_card.png`, so it now sits where neither project owns it (the same move, and the same parent
+folder, as the WhisperX venv). `pipeline_config.json`'s `channel_dna_file` points there; nothing
+else in the pipeline changed, because `channel_assets_dir()` derives the assets folder from that
+one pointer.
 That overwrites the live shared asset — the *previous* video's card is gone the moment a new
 one is copied in. If two videos need to stay live with different cards simultaneously, render
 to a distinct filename and point `cta.outro_card.asset` at it instead of copying over the
@@ -383,6 +417,17 @@ and exits cleanly rather than repeating the 403 `upload_youtube.py --skip-commen
 Skips re-posting if `manifest.json` already has a `youtube_pinned_comment_id` (use
 `--force-comment` to post again anyway); `--text`/`--text-file` override the pipeline-built
 comment; `--no-comment` syncs status only, never posts.
+
+**`--description` (added 2026-08-15): push a rebuilt description to an already-uploaded video,
+no MP4 re-upload.** Rebuilds via the same `build_description()` used at upload time and pushes
+it with a `videos().update()` call (fetches the live snippet first, swaps only the description
+field, pushes the full snippet back — the API requires the whole snippet on any update, not a
+partial patch). Use this after editing `config_override.json`'s CTA keys (watch-next, comment
+prompt) or after a `build_description()` logic change, instead of re-running the full upload:
+
+```powershell
+python post_update.py --project {Project} --description
+```
 
 **Manual, no API path:** publishing the draft to Public (Studio → confirm thumbnail/title →
 Public), and pinning a posted comment to the top (Studio → Comments → ⋮ → Pin to top — the API

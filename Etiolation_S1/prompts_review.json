@@ -214,7 +214,7 @@
       "scene_id": "SCENE-110",
       "script": "The obvious correction is the one that kills the plant.",
       "auto_prompt": "A 16:9 widescreen mid-shot of a person gently rotating a pot of Crassula ovata (Jade Plant) on a sunlit table. The person’s hands are engaged in the task, and the plant appears healthy but is showing slight signs of stretching. The warm light casts soft shadows, enhancing the earthy tones of the scene.",
-      "override_prompt": ""
+      "override_prompt": "16:9 widescreen. Warm cinematic photography of a pair of hands moving a terracotta pot of Crassula ovata (Jade Plant) directly into a shaft of harsh direct sunlight streaming through a window, the pot caught mid-motion right at the sharp boundary between dim room shadow and bright overexposed light. The jade plant leaves are pale and thin from prior stretching, not yet scorched, photographed at the instant just before the damage happens. Strong directional sunlight creates a hard bright-to-shadow line cutting across the frame, high contrast, a sense of an unfolding mistake. Rich earthy tones, terracotta pot, wooden table. No text, no logos. No blue or cool tones. No clocks, no watches. Botanically accurate. Photorealistic."
     },
     {
       "scene_id": "SCENE-111",

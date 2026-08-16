@@ -1,0 +1,6 @@
+{
+  "_comment": "Project-level config override for Gravel_S1 (narrative). Etiolation_S1 flipped item_overlay_enabled on for its listicle; this is a narrative video, so item_overlay stays off (the pipeline_config default) and nothing is set here. CTA per-video keys are flat cta_* (config_loader rejects a nested 'cta' object). Watch-next target matches the approved CTA plan: Stop Succulent Rotting Fast (same mistake, opposite direction).",
+  "cta_watch_next_title": "Stop Succulent Rotting Fast: The First 5 Minutes Matter",
+  "cta_watch_next_id": "Zx4nw7Xuigg",
+  "cta_watch_next_why": "same mistake, opposite direction"
+}

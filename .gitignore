@@ -54,3 +54,7 @@ venv/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Thumbnail backups taken before a handle/edit pass (2026-08) -- same class as
+# images_backup_pre_review_fixes above: superseded on disk, not in git.
+*_backup_pre_*.png
