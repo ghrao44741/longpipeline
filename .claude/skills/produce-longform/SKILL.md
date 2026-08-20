@@ -25,10 +25,17 @@ the end and get an explicit yes.
 
 ## Step 0 — Inputs and format
 
-**Scope: succulents only.** No general houseplants, tropicals, or foliage plants. Snake Plant
-and cacti are botanically defensible and deliberately out of scope — an LLM filling out a list
-or picking an example will reach for them, so check. Expanding scope is a channel-strategy
-decision the user makes on purpose, never something a script introduces quietly.
+**Scope: whatever the domain source doc declares, not assumed.** The channel covered succulents
+only through 2026-08-19; as of that date the user has opened it to other plants on purpose, so
+"succulents only" is no longer a fixed pipeline-level rule — each domain doc now states its own
+`Type of plants covered`, and that is the scope for any video built from it (see
+`domain_source_doc_template.md` in the vault's `Workflows` folder). Hold the script and every
+image prompt to **exactly** that doc's declared scope, no wider and no narrower. An LLM filling
+out a list or picking an example will still reach for a convenient but out-of-scope species —
+Snake Plant or cacti dropped into a succulents-only doc's list, or a succulent dropped into a
+doc scoped to a different plant group — so check for this regardless of which scope is in
+effect. Broadening a video's scope beyond what its source doc supports is still not something a
+script introduces quietly: that requires a new or updated domain doc, verified, before scripting.
 
 You need a project name (no spaces), a topic, and a **domain source document**.
 
@@ -329,6 +336,13 @@ bare project name otherwise — an easy thing to forget), or pass `--title` at u
 Confirm before running:
 - `manifest.json`'s `"title"` is a real, genus-level, common-name title — not the project name
 - `youtube_tags` (channel_dna) does not contain `shorts`
+- **for a non-succulent video, set `youtube_tags` explicitly in this project's own
+  `config_override.json`.** The channel_dna default (`succulents`, `succulentcare`, `cactus`, ...)
+  ships verbatim on every upload unless overridden — it does not detect topic and will not
+  self-correct. This already works with no code change: `upload_youtube.py` merges a project's
+  `config_override.json` over `channel_dna` with highest priority, and `youtube_tags` is a flat
+  list, not a nested `cta`-style object, so nothing blocks overriding it the same way
+  `cta_watch_next_*` already does.
 - chapters will come from `items.json` (listicle) or don't exist yet (narrative) — never
   hand-author them
 
