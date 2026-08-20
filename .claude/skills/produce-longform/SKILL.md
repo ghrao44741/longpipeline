@@ -128,6 +128,25 @@ boundaries land on scene boundaries and the numbered overlay maps without fuzzy 
 
 Show the user the **full script text** at the approval gate. Check yourself first.
 
+**Run `check_script.py` before voiceover, every time — `run_pipeline.py` already gates on
+this, but check it yourself too if writing/editing `script.txt` directly outside the
+pipeline.** `edge-tts --file` inserts a real ~1.1s pause at ANY newline in the input,
+including one that lands mid-sentence from ordinary human-readable word-wrapping (e.g.
+copying prose out of a ~90-char-wrapped vault doc) — confirmed directly on Gravel_S1
+(2026-08-15): 77 mid-sentence wraps accounted for ~90s of pure dead air in the raw
+narration, audible even under BGM, and it survived a full rewrite to shorter sentences
+because the rewrite kept the same wrapping habit. Etiolation_S1 never hit this only because
+its `script.txt` happened to have zero mid-sentence wraps, not because of any check — see
+`CLAUDE.md`'s BACKLOG for the full root-cause writeup, including why this is a *different*
+bug from the `CLIP_EXTRA` scene-cut-density pacing issue documented in Step 6 and must not
+be conflated with it.
+```powershell
+python check_script.py --project {Project}          # report only
+python check_script.py --project {Project} --fix    # auto-fix wraps + dash/semicolon/colon
+```
+Bracket/markdown-style symbols are flagged only, never auto-fixed — those need a human
+judgment call on what the right replacement is.
+
 **Both formats:**
 - Does any claim exceed what the source doc's confidence markers allow?
 - Does it re-derive a companion video's material instead of pointing at it?
@@ -306,6 +325,22 @@ ffmpeg -y -ss 120 -i <Project>/output/<Project>_captioned.mp4 -frames:v 1 check.
 
 Confirm: 1920×1080, captions readable in the bottom third, watermark present, BGM audible and
 under the voice.
+
+**If the finished video feels like it's pausing between sentences, check scene-cut density
+before touching anything else.** Every scene boundary carries a fixed ~0.83s render pad
+(`stitch_video_longform.py`'s `CLIP_EXTRA` plus pre/post audio padding) — that's constant
+regardless of scene length, so a script with many short scenes packs far more of these pads
+per minute than one with fewer, longer scenes. Confirmed directly comparing Etiolation_S1
+(123 scenes, 4.3s mean, no pacing complaint) against an early Gravel_S1 draft (187 scenes,
+2.97s mean, same pad, real pacing complaint) — same constant, very different perceived
+rhythm from cut frequency alone. **This is a separate bug from the `check_script.py`
+newline-pause issue in Step 4 — do not assume fixing one fixes the other.** The newline bug
+lives in the raw narration audio itself, upstream of scene-splitting entirely, and is audible
+even with zero scene cuts; this one only exists in the *finished, stitched* video and scales
+with cut count. If cut density looks like the real cause (many scenes under ~2s, well above
+Etiolation's ~10/123 baseline), the fix is writing toward Etiolation's sentence length, not
+retuning `CLIP_EXTRA` globally — that constant has no per-project override today, so changing
+it affects every future video, not just the one that prompted the question.
 
 **For any grouped shot spanning multiple distinct narration lines, extract a frame at more
 than one point in its window** (start, middle, near its end), not just one — a single frame
